@@ -1,0 +1,56 @@
+.body {
+  padding-top: 48rpx;
+}
+
+.axis {
+  display: flex;
+  justify-content: center;
+  padding: 48rpx 0 32rpx;
+}
+
+.lines {
+  text-align: center;
+  margin-bottom: 48rpx;
+}
+
+.gold-slot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32rpx;
+}
+
+.center {
+  text-align: center;
+}
+
+.spacer {
+  height: 96rpx;
+}
+
+.until {
+  margin-top: 24rpx;
+  word-break: break-all;
+}
+
+.link {
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  color: var(--ink-nong);
+}
+
+.gate {
+  width: 240rpx;
+  height: 280rpx;
+  display: flex;
+  flex-direction: row;
+  border: 1.5px solid var(--ink-zhong);
+}
+
+.leaf {
+  flex: 1;
+  border-right: 1px solid var(--ink-zhong);
+}
+
+.leaf:last-child {
+  border-right: none;
+}

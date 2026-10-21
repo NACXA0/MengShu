@@ -1,0 +1,26 @@
+.card {
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.pane {
+  padding: 32rpx;
+}
+
+.body {
+  font-size: 32rpx;
+  line-height: 52rpx;
+  color: var(--ink-nong);
+}
+
+.empty {
+  color: var(--ink-dan);
+  text-indent: 0;
+}
+
+.bind {
+  height: 1px;
+  margin: 0 32rpx;
+  background: var(--ink-qing);
+}

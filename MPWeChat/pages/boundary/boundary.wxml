@@ -1,0 +1,10 @@
+<view class="screen depth-page vault {{themeClass}} {{phase === 'enter' || phase === 'leave' ? (phase === 'leave' ? 'leaving' : 'entering') : ''}}">
+  <nav-bar title="" show-back plaza="{{false}}" depth bind:back="onBack" />
+  <view class="stage" style="{{layout.bodyPadStyle}}">
+    <view class="door {{nudge ? 'nudge' : ''}}" bindtap="push">
+      <view class="leaf"></view>
+      <view class="leaf"></view>
+    </view>
+    <view class="type-caption cap">双签在 App 内完成</view>
+  </view>
+</view>

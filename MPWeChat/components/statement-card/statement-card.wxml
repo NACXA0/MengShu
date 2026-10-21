@@ -1,0 +1,11 @@
+<view class="card">
+  <view class="pane">
+    <view class="body {{left.empty ? 'empty' : 'indent-2'}}">{{left.body}}</view>
+    <view class="sign-off" wx:if="{{!left.empty}}">{{left.date}}</view>
+  </view>
+  <view class="bind"></view>
+  <view class="pane">
+    <view class="body {{right.empty ? 'empty' : 'indent-2'}}">{{right.body}}</view>
+    <view class="sign-off" wx:if="{{!right.empty}}">{{right.date}}</view>
+  </view>
+</view>

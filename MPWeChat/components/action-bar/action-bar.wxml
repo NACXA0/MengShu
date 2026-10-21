@@ -1,0 +1,9 @@
+<view class="action-dock">
+  <view class="action-tray" wx:if="{{single}}">
+    <view class="btn btn-fill grow pressable {{singleDisabled ? 'btn-disabled' : ''}}" bindtap="onSingle">{{single}}</view>
+  </view>
+  <view class="action-tray" wx:else>
+    <view class="btn grow pressable" bindtap="onLeft">{{leftText}}</view>
+    <view class="btn grow pressable {{rightFill ? 'btn-fill' : ''}} {{rightDisabled ? 'btn-disabled' : ''}}" bindtap="onRight">{{rightText}}</view>
+  </view>
+</view>

@@ -1,0 +1,37 @@
+<view class="screen {{themeClass}} pad-bottom-tab">
+  <nav-bar title="核验" plaza scrolled="{{scrolled}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="finder pressable" bindtap="onScan">
+      <view class="corner corner-tl"></view>
+      <view class="corner corner-tr"></view>
+      <view class="corner corner-bl"></view>
+      <view class="corner corner-br"></view>
+    </view>
+    <view class="type-caption hint" wx:if="{{hint}}">向出示方索取授权码</view>
+    <view class="input-line {{focus ? 'focus' : ''}} {{shake ? 'shake' : ''}}">
+      <view class="corners" wx:if="{{focus}}">
+        <view class="corner corner-tl"></view>
+        <view class="corner corner-tr"></view>
+        <view class="corner corner-bl"></view>
+        <view class="corner corner-br"></view>
+      </view>
+      <input
+        class="mono field"
+        value="{{code}}"
+        placeholder="MS-····"
+        confirm-type="done"
+        bindinput="onInput"
+        bindfocus="onFocus"
+        bindblur="onBlur"
+        bindconfirm="onConfirm"
+      />
+      <view class="go pressable" bindtap="submit">核验</view>
+    </view>
+    <view class="logs" wx:if="{{logs.length}}">
+      <view class="log pressable" wx:for="{{logs}}" wx:key="id" data-id="{{item.id}}" bindtap="onLog">
+        <text class="mono">{{item.tail}}</text>
+        <text class="tnum time">{{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,56 @@
+.nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  box-sizing: border-box;
+}
+
+.nav.scrolled {
+  box-shadow: inset 0 -1px 0 var(--ink-qing);
+}
+
+.nav.depth {
+  background: transparent;
+}
+
+.title {
+  position: absolute;
+  left: 120rpx;
+  right: 200rpx;
+  bottom: 0;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: var(--ink-jiao);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.back {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right,
+.pill {
+  position: absolute;
+  right: 220rpx;
+  bottom: 24rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  color: var(--ink-nong);
+}
+
+.pill {
+  padding: 0 16rpx;
+  border: 1px solid var(--ink-nong);
+  border-radius: 999rpx;
+  height: 40rpx;
+}

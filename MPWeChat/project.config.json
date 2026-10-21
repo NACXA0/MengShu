@@ -1,0 +1,37 @@
+{
+  "description": "盟书轻功能 mock。用微信开发者工具导入 MPWeChat 目录。touristappid，基础库 3.6.6。",
+  "compileType": "miniprogram",
+  "setting": {
+    "coverView": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmRelationList": [],
+    "ignoreUploadUnusedFiles": true,
+    "es6": true,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "checkInvalidKey": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "simulatorType": "wechat",
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "libVersion": "3.6.6",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "appid": "touristappid",
+  "projectname": "mengshu-mock-mp",
+  "miniprogramRoot": "./",
+  "simulatorPluginLibVersion": {}
+}

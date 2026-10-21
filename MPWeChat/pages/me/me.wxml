@@ -1,0 +1,48 @@
+<view class="screen {{themeClass}} pad-bottom-tab">
+  <nav-bar title="盟书" plaza />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="group">
+      <view class="ghost-field pressable" wx:for="{{samples}}" wx:key="id" data-id="{{item.id}}" bindtap="openPlaza">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" wx:for="{{codes}}" wx:key="id" data-id="{{item.id}}" bindtap="fillCode">
+        <view class="grow">
+          <view class="mono type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" wx:for="{{orgs}}" wx:key="id" data-id="{{item.id}}" bindtap="openOrg">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group" wx:if="{{consents.length}}">
+      <view class="ledger" wx:for="{{consents}}" wx:key="id">
+        <text class="tnum cell">{{item.time}}</text>
+        <text class="cell">{{item.org}}</text>
+        <text class="cell">{{item.fields}}</text>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" bindtap="cycleTheme">
+        <text class="grow">外观</text>
+        <text class="type-caption">{{appearance}}</text>
+      </view>
+      <view class="ghost-field pressable" bindtap="openBoundary">
+        <text class="grow">能力边界</text>
+      </view>
+      <view class="ghost-field pressable alert" bindtap="reset">
+        <text>{{resetLabel}}</text>
+      </view>
+    </view>
+  </view>
+</view>

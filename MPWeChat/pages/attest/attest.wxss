@@ -1,0 +1,46 @@
+.body {
+  padding-top: 24rpx;
+}
+
+.line {
+  padding: 24rpx 0;
+  min-height: 96rpx;
+}
+
+.lab {
+  display: block;
+  font-size: 24rpx;
+  color: var(--ink-zhong);
+  margin-bottom: 8rpx;
+}
+
+.val {
+  display: block;
+  color: var(--ink-jiao);
+  font-size: 28rpx;
+  line-height: 44rpx;
+  word-break: break-all;
+}
+
+.serif-num {
+  font-family: var(--type-serif);
+}
+
+.cap {
+  font-size: 24rpx;
+  color: var(--ink-dan);
+}
+
+.gold-slot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24rpx;
+}
+
+.ok-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24rpx;
+  padding: 8rpx 16rpx;
+}

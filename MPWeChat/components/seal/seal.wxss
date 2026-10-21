@@ -1,0 +1,4 @@
+.seal {
+  display: block;
+  flex-shrink: 0;
+}

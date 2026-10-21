@@ -1,0 +1,27 @@
+.body {
+  padding-top: 16rpx;
+}
+
+.group {
+  margin-top: 48rpx;
+}
+
+.alert {
+  color: var(--seal-alert);
+}
+
+.ledger {
+  display: flex;
+  flex-direction: row;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  line-height: 36rpx;
+  color: var(--ink-zhong);
+}
+
+.cell {
+  flex: 1;
+  min-width: 0;
+  padding-right: 8rpx;
+  font-family: var(--type-mono);
+}

@@ -1,0 +1,25 @@
+.scroller {
+  height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 200rpx;
+}
+
+.contact {
+  margin: 16rpx 0 32rpx;
+}
+
+.purpose {
+  margin-bottom: 32rpx;
+}
+
+.block {
+  margin-top: 32rpx;
+}
+
+.miss {
+  margin-top: 32rpx;
+}
+
+.demo {
+  margin: 64rpx 0 48rpx;
+}

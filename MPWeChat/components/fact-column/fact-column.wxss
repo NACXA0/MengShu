@@ -1,0 +1,49 @@
+.facts {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.rail {
+  width: 1px;
+  background: var(--ink-jiao);
+  margin: 16rpx 24rpx 16rpx 0;
+}
+
+.rows {
+  flex: 1;
+  min-width: 0;
+}
+
+.item {
+  min-height: 96rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.label {
+  width: 200rpx;
+  flex-shrink: 0;
+  font-size: 28rpx;
+  line-height: 44rpx;
+  color: var(--ink-zhong);
+}
+
+.value {
+  flex: 1;
+  font-size: 32rpx;
+  line-height: 52rpx;
+  color: var(--ink-jiao);
+  font-family: var(--type-serif);
+}
+
+.value.mono {
+  font-family: var(--type-mono);
+  font-size: 28rpx;
+  word-break: break-all;
+}
+
+.vermilion {
+  color: var(--seal-vermilion);
+}

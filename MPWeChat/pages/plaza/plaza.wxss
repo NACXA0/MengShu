@@ -1,0 +1,91 @@
+.body {
+  padding-top: 24rpx;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-top: 24rpx;
+}
+
+.name-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.public-id {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: var(--ink-zhong);
+}
+
+.seal-slot {
+  margin-left: 16rpx;
+  margin-top: 28rpx;
+}
+
+.empty-ring {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 999rpx;
+  border: 1px dashed var(--ink-dan);
+  box-sizing: border-box;
+}
+
+.block {
+  margin-top: 48rpx;
+}
+
+.div-line {
+  margin-top: 48rpx;
+}
+
+.share {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 32rpx calc(16rpx + constant(safe-area-inset-bottom));
+  padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
+  background: var(--paper);
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+}
+
+.share-btn {
+  margin: 0;
+  background: transparent;
+  line-height: 96rpx;
+  padding: 0;
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.withdrawn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 160rpx;
+}
+
+.gate {
+  width: 240rpx;
+  height: 280rpx;
+  display: flex;
+  flex-direction: row;
+  border: 1.5px solid var(--ink-zhong);
+  margin-bottom: 48rpx;
+}
+
+.leaf {
+  flex: 1;
+  border-right: 1px solid var(--ink-zhong);
+}
+
+.leaf:last-child {
+  border-right: none;
+}

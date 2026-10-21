@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ms-icon": "/components/icon/icon"
+  }
+}
