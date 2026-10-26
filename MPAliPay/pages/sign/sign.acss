@@ -1,0 +1,12 @@
+.type-caption {
+  margin: 12rpx 0 24rpx;
+}
+
+.err {
+  color: var(--seal-alert);
+  margin: 16rpx 0;
+}
+
+.action-tray {
+  margin-top: 32rpx;
+}

@@ -1,0 +1,10 @@
+.words {
+  margin: 32rpx 0;
+  line-height: 48rpx;
+  word-break: break-all;
+}
+
+.err {
+  color: var(--seal-alert);
+  margin-bottom: 16rpx;
+}

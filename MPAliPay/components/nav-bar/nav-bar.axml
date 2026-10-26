@@ -1,0 +1,8 @@
+<view class="nav {{scrolled ? 'scrolled' : ''}} {{depth ? 'depth' : ''}}" style="{{layout.navPadStyle}}">
+  <view a:if="{{showBack}}" class="back" style="{{layout.backStyle}}" onTap="onBackTap">
+    <ms-icon name="caret-left" size="{{48}}" tone="{{tone}}" />
+  </view>
+  <view class="title serif">{{title}}</view>
+  <view class="right" a:if="{{report}}" onTap="onReportTap">举报</view>
+  <view class="pill" a:elif="{{plaza}}">广场</view>
+</view>

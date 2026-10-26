@@ -15,7 +15,7 @@
 **双边签认、密码学存证、开源免费的关系信任基础设施。**
 *Co-signed. Cryptographically sealed. Open source.*
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20WeChat%20MiniProgram-lightgrey)]()
+[![Platform](https://img.shields.io/badge/Platform-Alipay%20MiniProgram%20%7C%20Cloud-lightgrey)]()
 [![Crypto](https://img.shields.io/badge/Crypto-SM2%20%7C%20SM3%20%7C%20SM4-red)]()
 [![Status](https://img.shields.io/badge/Status-Pre--Alpha-orange)]()
 [![Chain](https://img.shields.io/badge/Anchoring-%E8%87%B3%E4%BF%A1%E9%93%BE-success)]()
@@ -80,21 +80,21 @@ Vault 区数据向第三方的输出 = 0 字节。
 git clone https://github.com/NACXA0/MengShu.git
 cd MengShu
 
-无需注册即可浏览源码与验证公开页样例；注册需微信/支付宝实名核身（18+）。
+当前可运行客户端为 [MPAliPay](MPAliPay)（支付宝小程序 + 小程序云）。用支付宝开发者工具导入该目录；环境 ID 写入 `MPAliPay/utils/env.js`。注册依赖支付宝实名主账户（18+）。
 ## 文档索引
 | 文档 | 内容 | 状态 |
 |---|---|---|
-| [MRD](docs/MRD市场需求文档.md) | 市场需求文档：定位、客群、商业模式、裂变模型 | v1.1 定稿 |
-| [PRD](docs/PRD产品设计文档.md) | 产品需求文档：功能规格、用户故事、验收标准 | v1.0 冻结 |
-| [SRS](docs/SRS软件规格需求文档.md) | 软件需求规格说明书：系统架构、接口、非功能需求 | v1.0 评审稿 |
-| [竞品分析](docs/竞品分析.md) | 市场同类产品对比与差异化 | 已完成 |
-| [技术白皮书](docs/技术白皮书.md) | 信任机制与密码学细节 | 编写中 |
-| [CONTRIBUTING](CONTRIBUTING.md) | 贡献指南 | 见下节 |
+| [MRD](docs/商业/MRD市场需求文档.md) | 市场需求文档：定位、客群、商业模式、裂变模型 | v1.1 定稿 |
+| [PRD](docs/商业/PRD产品设计文档.md) | 产品需求文档：功能规格、用户故事、验收标准 | v2.0 |
+| [SRS](docs/商业/SRS软件规格需求文档.md) | 软件需求规格说明书：系统架构、接口、非功能需求 | v2.0 评审稿 |
+| [竞品分析](docs/商业/竞品分析.md) | 市场同类产品对比与差异化 | 已完成 |
+| [技术白皮书](docs/商业/技术白皮书.md) | 信任机制与密码学细节 | 编写中 |
+| [贡献](docs/法律/贡献.md) | 贡献指南 | 见下节 |
 ## 技术栈
 - **密码学**：SM2（签名）/ SM3（哈希，全部 HMAC 加盐）/ SM4（本地加密），符合 GB/T 32905-2016 等国密标准
 - **链上锚定**：至信链（司法联盟链）+ 国家授时中心 TSA 时间戳，AnchorBackend 插件化可替换
-- **客户端**：iOS（Swift，Secure Enclave）/ Android（Kotlin，StrongBox）/ 微信小程序（轻功能版）
-- **实名外包**：微信核身 / 支付宝核身 SDK——平台不落任何证件号、姓名、人脸
+- **客户端（当前）**：支付宝小程序主端 + 支付宝云开发（云函数 / 云数据库）；口令与助记词仅存本机
+- **身份**：支付宝 OPENID（云函数 `getAlipayContext`）+ certify 门控（壳内模拟）
 - **合规**：参照《个人信息保护法》《电子签名法》、GB/T 8567、ISO/IEC/IEEE 29148
 ## 路线图
 | 阶段 | 范围 | 验证目标 |

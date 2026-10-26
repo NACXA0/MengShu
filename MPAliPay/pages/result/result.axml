@@ -1,0 +1,42 @@
+<view class="screen {{themeClass}} pad-bottom-action">
+  <nav-bar title="结果" showBack="{{true}}" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <block a:if="{{kind === 'pass'}}">
+      <view class="axis">
+        <ms-seal a:if="{{drop}}" kind="yanqi" size="{{128}}" drop="{{true}}" />
+      </view>
+      <view class="lines">
+        <view class="type-body">未被篡改</view>
+        <view class="type-body">宣誓有效</view>
+        <view class="type-body">核身有效</view>
+      </view>
+      <fact-column rows="{{rows}}" />
+      <view class="gold-slot" a:if="{{gold}}">
+        <ms-seal kind="meng" size="{{96}}" />
+      </view>
+    </block>
+
+    <block a:if="{{kind === 'expired'}}">
+      <view class="axis">
+        <view class="gate">
+          <view class="leaf"></view>
+          <view class="leaf"></view>
+        </view>
+      </view>
+      <view class="type-h3 center">授权码已过期</view>
+    </block>
+
+    <block a:if="{{kind === 'deny'}}">
+      <view class="spacer"></view>
+      <view class="type-h3 center">用户未授权</view>
+    </block>
+
+    <block a:if="{{kind === 'grant'}}">
+      <view class="spacer"></view>
+      <fact-column rows="{{rows}}" />
+      <view class="type-caption mono until">{{until}}</view>
+      <view class="link pressable" onTap="toLedger">已记入授权记录</view>
+    </block>
+  </view>
+  <action-bar a:if="{{kind === 'expired'}}" single="再核验一次" onSingle="retry" />
+</view>

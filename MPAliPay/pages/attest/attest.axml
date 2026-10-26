@@ -1,0 +1,42 @@
+<view class="screen {{themeClass}} pad-bottom-action">
+  <nav-bar title="存证" showBack="{{true}}" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{profile}}">
+    <view class="line pressable" data-key="digest" onTap="copy">
+      <text class="lab">哈希</text>
+      <text class="mono val">{{profile.digest}}</text>
+      <text class="cap">{{copied === 'digest' ? '已复制' : ''}}</text>
+    </view>
+    <view class="line pressable" data-key="txId" onTap="copy">
+      <text class="lab">tx_id</text>
+      <text class="mono val">{{profile.txId}}</text>
+      <text class="cap">{{copied === 'txId' ? '已复制' : ''}}</text>
+    </view>
+    <view class="line pressable" data-key="anchoredAt" onTap="copy">
+      <text class="lab">时间</text>
+      <text class="val serif-num">{{profile.anchoredAt}}</text>
+      <text class="cap">{{copied === 'anchoredAt' ? '已复制' : ''}}</text>
+    </view>
+    <view class="line col pressable" data-key="merkle" onTap="copy">
+      <text class="lab">Merkle</text>
+      <text class="mono val" a:for="{{profile.merkle}}" a:key="*this">{{item}}</text>
+      <text class="cap">{{copied === 'merkle' ? '已复制' : ''}}</text>
+    </view>
+    <view class="gold-slot" a:if="{{profile.anchored && profile.attestation !== 'false'}}">
+      <ms-seal kind="meng" size="{{96}}" />
+    </view>
+  </view>
+  <view class="action-dock">
+    <view class="action-tray" a:if="{{checked === 'ok'}}">
+      <view class="ok-row">
+        <ms-seal kind="yanqi" size="{{96}}" drop="{{drop}}" />
+        <text class="type-body">与锚定根一致</text>
+      </view>
+    </view>
+    <view class="action-tray" a:elif="{{checked === 'bad'}}">
+      <view class="btn btn-alert grow">不一致</view>
+    </view>
+    <view class="action-tray" a:else>
+      <view class="btn btn-fill grow pressable" onTap="check">核对</view>
+    </view>
+  </view>
+</view>

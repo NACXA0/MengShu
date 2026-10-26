@@ -1,0 +1,9 @@
+<view class="screen {{themeClass}}">
+  <nav-bar title="助记词" showBack="{{true}}" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="type-caption">{{note}}</view>
+    <view class="mono words">{{mnemonic}}</view>
+    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+    <view class="btn btn-fill grow pressable" onTap="copy" a:if="{{mnemonic}}">复制</view>
+  </view>
+</view>

@@ -1,0 +1,36 @@
+<view class="screen {{themeClass}} pad-bottom-tab">
+  <nav-bar title="核验" plaza="{{true}}" scrolled="{{scrolled}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="finder pressable" onTap="onScan">
+      <view class="corner corner-tl"></view>
+      <view class="corner corner-tr"></view>
+      <view class="corner corner-bl"></view>
+      <view class="corner corner-br"></view>
+    </view>
+    <view class="type-caption hint" a:if="{{hint}}">向出示方索取授权码</view>
+    <view class="input-line {{focus ? 'focus' : ''}} {{shake ? 'shake' : ''}}">
+      <view class="corners" a:if="{{focus}}">
+        <view class="corner corner-tl"></view>
+        <view class="corner corner-tr"></view>
+        <view class="corner corner-bl"></view>
+        <view class="corner corner-br"></view>
+      </view>
+      <input
+        class="mono field"
+        value="{{code}}"
+        placeholder="MS-····"
+        onInput="onInput"
+        onFocus="onFocus"
+        onBlur="onBlur"
+        onConfirm="onConfirm"
+      />
+      <view class="go pressable" onTap="submit">核验</view>
+    </view>
+    <view class="logs" a:if="{{logs.length}}">
+      <view class="log pressable" a:for="{{logs}}" a:key="id" data-id="{{item.id}}" onTap="onLog">
+        <text class="mono">{{item.tail}}</text>
+        <text class="tnum time">{{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

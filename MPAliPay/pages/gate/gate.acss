@@ -1,0 +1,16 @@
+.lead {
+  margin: 16rpx 0 48rpx;
+}
+
+.note {
+  margin-top: 24rpx;
+}
+
+.err {
+  margin-top: 24rpx;
+  color: var(--seal-alert);
+}
+
+.enter {
+  margin-top: 64rpx;
+}

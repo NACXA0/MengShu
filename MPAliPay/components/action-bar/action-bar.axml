@@ -1,0 +1,9 @@
+<view class="action-dock">
+  <view class="action-tray" a:if="{{single}}">
+    <view class="btn btn-fill grow pressable {{singleDisabled ? 'btn-disabled' : ''}}" onTap="onSingleTap">{{single}}</view>
+  </view>
+  <view class="action-tray" a:else>
+    <view class="btn grow pressable" onTap="onLeftTap">{{leftText}}</view>
+    <view class="btn grow pressable {{rightFill ? 'btn-fill' : ''}} {{rightDisabled ? 'btn-disabled' : ''}}" onTap="onRightTap">{{rightText}}</view>
+  </view>
+</view>

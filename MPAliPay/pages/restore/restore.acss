@@ -1,0 +1,17 @@
+.area {
+  width: 100%;
+  min-height: 160rpx;
+  margin: 24rpx 0;
+  font-size: 28rpx;
+}
+
+.field-line {
+  height: 88rpx;
+  margin-bottom: 24rpx;
+  border-bottom: 1px solid var(--ink-qing);
+}
+
+.err {
+  color: var(--seal-alert);
+  margin-bottom: 16rpx;
+}

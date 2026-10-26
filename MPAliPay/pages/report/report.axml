@@ -1,0 +1,23 @@
+<view class="screen {{themeClass}} pad-bottom-action">
+  <nav-bar title="举报" showBack="{{true}}" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view
+      class="ghost-field pressable"
+      a:for="{{reasons}}"
+      a:key="*this"
+      data-index="{{index}}"
+      onTap="pick"
+    >
+      <view class="check {{picked === index ? 'check-on' : ''}}"></view>
+      <text class="grow">{{item}}</text>
+      <ms-seal a:if="{{done && picked === index}}" kind="shouli" size="{{48}}" drop="{{drop}}" />
+    </view>
+    <view class="type-caption" a:if="{{done}}">24 小时内处理</view>
+  </view>
+  <action-bar
+    a:if="{{!done}}"
+    single="提交"
+    singleDisabled="{{picked < 0}}"
+    onSingle="submit"
+  />
+</view>

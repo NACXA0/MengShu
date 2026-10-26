@@ -1,0 +1,38 @@
+<view class="screen {{themeClass}} pad-bottom-action">
+  <nav-bar title="双签" showBack="{{true}}" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{view}}">
+    <view class="type-h2">{{view.title}}</view>
+    <view class="type-caption">状态：{{view.displayLabel}}</view>
+    <view class="mono type-legal" a:if="{{view.txId}}">{{view.txId}}</view>
+    <view class="type-caption" a:if="{{view.anchoredLabel}}">{{view.anchoredLabel}}</view>
+    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+
+    <view class="ghost-field pressable" onTap="switchRole">
+      <text class="grow">切换角色</text>
+      <text class="type-caption">{{role === 'A' ? '邀请方 A' : '对方 B'}}</text>
+    </view>
+
+    <block a:if="{{role === 'B' && view.status === 'INVITED' && view.inviteeView !== 'VOIDED'}}">
+      <view class="action-tray">
+        <view class="btn grow pressable" onTap="decline">拒绝</view>
+        <view class="btn btn-fill grow pressable" onTap="accept">接受</view>
+      </view>
+    </block>
+
+    <block a:if="{{view.status === 'DRAFTING'}}">
+      <view class="type-body">双方须各自通过本人核验后完成双签。</view>
+      <view class="type-caption">A {{view.certified.A ? '已确认' : '未确认'}} · B {{view.certified.B ? '已确认' : '未确认'}}</view>
+      <view class="action-tray">
+        <view class="btn btn-fill grow pressable" onTap="goCertify">本方核验确认</view>
+      </view>
+    </block>
+
+    <block a:if="{{view.status === 'SIGNED'}}">
+      <view class="type-body">已双签（本地模拟）</view>
+      <view class="mono type-legal">{{view.digest}}</view>
+    </block>
+  </view>
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:else>
+    <view class="type-h3">未找到关系</view>
+  </view>
+</view>

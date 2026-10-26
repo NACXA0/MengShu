@@ -1,0 +1,57 @@
+<view class="screen {{themeClass}} pad-bottom-tab">
+  <nav-bar title="档案" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="type-caption note">{{note}}</view>
+
+    <view class="group" a:if="{{!unlocked}}">
+      <view class="type-body">{{hasLock ? '输入口令解锁' : '设置口令（本地模拟）'}}</view>
+      <input class="mono field-line" password value="{{pass}}" placeholder="口令" onInput="onPassInput" />
+      <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+      <view class="action-tray">
+        <view class="btn btn-fill grow pressable" onTap="onLockAction">{{hasLock ? '解锁' : '设置并打开'}}</view>
+      </view>
+      <view class="ghost-field pressable" onTap="openRestore">
+        <text class="grow">用助记词恢复</text>
+      </view>
+    </view>
+
+    <block a:else>
+      <view class="group row">
+        <view class="ghost-field pressable grow" onTap="switchRole">
+          <text class="grow">当前角色</text>
+          <text class="type-caption">{{role === 'A' ? '邀请方 A' : '对方 B'}}</text>
+        </view>
+      </view>
+      <view class="group">
+        <view class="ghost-field pressable" onTap="startSign">
+          <text class="grow">发起双签（本地模拟）</text>
+        </view>
+        <view
+          class="ghost-field pressable"
+          a:for="{{relations}}"
+          a:key="id"
+          data-id="{{item.id}}"
+          onTap="openSign"
+        >
+          <view class="grow">
+            <view class="type-body">{{item.title}}</view>
+            <view class="type-caption">{{item.displayLabel}}{{item.anchoredLabel ? ' · ' + item.anchoredLabel : ''}}</view>
+          </view>
+        </view>
+        <view class="type-caption" a:if="{{!relations.length}}">尚无关系档案</view>
+      </view>
+      <view class="group">
+        <view class="ghost-field pressable" onTap="openBackup">
+          <text class="grow">导出助记词</text>
+        </view>
+        <view class="ghost-field pressable" onTap="lockNow">
+          <text class="grow">锁定</text>
+        </view>
+        <view class="ghost-field pressable alert" onTap="destroyVault">
+          <text>销毁保险库</text>
+        </view>
+      </view>
+      <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+    </block>
+  </view>
+</view>

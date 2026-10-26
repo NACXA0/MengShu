@@ -1,0 +1,10 @@
+<view class="screen depth-page vault {{themeClass}} {{phase === 'enter' || phase === 'leave' ? (phase === 'leave' ? 'leaving' : 'entering') : ''}}">
+  <nav-bar title="" showBack="{{true}}" plaza="{{false}}" depth="{{true}}" onBack="onBack" />
+  <view class="stage" style="{{layout.bodyPadStyle}}">
+    <view class="door {{nudge ? 'nudge' : ''}}" onTap="push">
+      <view class="leaf"></view>
+      <view class="leaf"></view>
+    </view>
+    <view class="type-caption cap">身份与档案走支付宝云函数；口令仍在本机。真实刷脸与国密不在此端。</view>
+  </view>
+</view>

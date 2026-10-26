@@ -1,9 +1,0 @@
-{
-  "desc": "盟书轻功能 mock：公开页仅链接可达",
-  "rules": [
-    {
-      "action": "disallow",
-      "page": "*"
-    }
-  ]
-}

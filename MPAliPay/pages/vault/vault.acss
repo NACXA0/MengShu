@@ -1,0 +1,24 @@
+.note {
+  margin-bottom: 24rpx;
+}
+
+.field-line {
+  height: 88rpx;
+  margin: 16rpx 0 24rpx;
+  border-bottom: 1px solid var(--ink-qing);
+  font-size: 28rpx;
+  color: var(--ink-jiao);
+}
+
+.err {
+  color: var(--seal-alert);
+  margin-bottom: 16rpx;
+}
+
+.group {
+  margin-bottom: 32rpx;
+}
+
+.row {
+  display: flex;
+}

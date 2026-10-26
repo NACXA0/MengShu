@@ -1,9 +1,0 @@
-<view class="facts">
-  <view class="rail"></view>
-  <view class="rows">
-    <view class="item" wx:for="{{rows}}" wx:key="label">
-      <text class="label">{{item.label}}</text>
-      <text class="value {{item.mono ? 'mono' : ''}} {{item.alert ? 'vermilion' : ''}}">{{item.value}}</text>
-    </view>
-  </view>
-</view>

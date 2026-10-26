@@ -1,0 +1,14 @@
+<view class="wrap {{themeClass}} {{hidden ? 'out' : ''}} {{hideHeavy ? 'heavy' : ''}}">
+  <view class="bar">
+    <view
+      class="item pressable {{selected === index ? 'on' : ''}}"
+      a:for="{{tabs}}"
+      a:key="key"
+      data-index="{{index}}"
+      onTap="onTap"
+    >
+      <ms-icon name="{{item.icon}}" size="{{48}}" tone="{{tone}}" />
+      <text class="lab">{{item.label}}</text>
+    </view>
+  </view>
+</view>

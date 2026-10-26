@@ -1,0 +1,68 @@
+<view class="screen {{themeClass}} pad-bottom-tab">
+  <nav-bar title="盟书" plaza="{{true}}" />
+  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+    <view class="group">
+      <view class="ghost-field">
+        <view class="grow">
+          <view class="type-body">当前 openid</view>
+          <view class="mono type-caption">{{openIdHint}}</view>
+        </view>
+      </view>
+      <view class="ghost-field pressable" onTap="toggleCertifyDown">
+        <text class="grow">核验服务中断</text>
+        <text class="type-caption">{{certifyDown ? '已中断' : '正常'}}</text>
+      </view>
+      <view class="ghost-field pressable" a:if="{{hasSession}}" onTap="clearSessionKeepBound">
+        <text class="grow">退出会话（保留绑定）</text>
+        <text class="type-caption">US-F9</text>
+      </view>
+      <view class="ghost-field pressable alert" a:if="{{hasSession}}" onTap="startLogout">
+        <text>注销账号（须核验）</text>
+      </view>
+    </view>
+
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{samples}}" a:key="id" data-id="{{item.id}}" onTap="openPlaza">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{codes}}" a:key="id" data-id="{{item.id}}" onTap="fillCode">
+        <view class="grow">
+          <view class="mono type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{orgs}}" a:key="id" data-id="{{item.id}}" onTap="openOrg">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="group" a:if="{{consents.length}}">
+      <view class="ledger" a:for="{{consents}}" a:key="id">
+        <text class="tnum cell">{{item.time}}</text>
+        <text class="cell">{{item.org}}</text>
+        <text class="cell">{{item.fields}}</text>
+      </view>
+    </view>
+    <view class="group">
+      <view class="ghost-field pressable" onTap="cycleTheme">
+        <text class="grow">外观</text>
+        <text class="type-caption">{{appearance}}</text>
+      </view>
+      <view class="ghost-field pressable" onTap="openBoundary">
+        <text class="grow">能力边界</text>
+      </view>
+      <view class="ghost-field pressable alert" onTap="reset">
+        <text>{{resetLabel}}</text>
+      </view>
+    </view>
+  </view>
+</view>

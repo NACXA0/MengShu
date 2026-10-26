@@ -1,8 +1,0 @@
-<view class="nav {{scrolled ? 'scrolled' : ''}} {{depth ? 'depth' : ''}}" style="{{layout.navPadStyle}}">
-  <view wx:if="{{showBack}}" class="back" style="{{layout.backStyle}}" bindtap="onBack">
-    <ms-icon name="caret-left" size="48" tone="{{tone}}" />
-  </view>
-  <view class="title serif">{{title}}</view>
-  <view class="right" wx:if="{{report}}" bindtap="onReport">举报</view>
-  <view class="pill" wx:elif="{{plaza}}">广场</view>
-</view>

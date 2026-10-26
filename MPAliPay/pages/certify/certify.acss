@@ -1,0 +1,8 @@
+.type-body {
+  margin: 24rpx 0;
+}
+
+.err {
+  margin-top: 32rpx;
+  color: var(--seal-alert);
+}
