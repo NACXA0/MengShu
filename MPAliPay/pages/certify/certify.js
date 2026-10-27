@@ -5,9 +5,9 @@ var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 
 var ACTION_LABEL = {
-  sign: '双签确认',
-  consent: '现场授权',
-  logout: '注销账号',
+  sign: '双签确认（身份验证）',
+  consent: '现场授权（身份验证）',
+  logout: '注销账号（身份验证）',
 };
 
 Page({

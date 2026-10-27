@@ -18,7 +18,7 @@ module.exports = {
       attestationLabel: '已宣誓',
       anchored: true,
       registered: '2024年3月',
-      dividend: '机构查询此页时，查询费的 30% 记入出示者',
+      dividend: '本平台不就机构查询收取运营费；全平台唯一付费项为支付宝身份验证',
       statements: [
         {
           side: 'A',
@@ -47,7 +47,7 @@ module.exports = {
       attestationLabel: '未宣誓',
       anchored: true,
       registered: '2025年1月',
-      dividend: '机构查询此页时，查询费的 30% 记入出示者',
+      dividend: '本平台不就机构查询收取运营费；全平台唯一付费项为支付宝身份验证',
       statements: [],
       digest: '0x22b0c1d9e84a7f31b6c0aa58d13e90c4',
       txId: 'zx_20260118_11c90a',
@@ -65,7 +65,7 @@ module.exports = {
       attestationLabel: '已宣誓',
       anchored: true,
       registered: '2023年11月',
-      dividend: '机构查询此页时，查询费的 30% 记入出示者',
+      dividend: '本平台不就机构查询收取运营费；全平台唯一付费项为支付宝身份验证',
       statements: [
         {
           side: 'A',
@@ -89,7 +89,7 @@ module.exports = {
       attestationLabel: '曾有虚假宣誓记录',
       anchored: true,
       registered: '2022年6月',
-      dividend: '机构查询此页时，查询费的 30% 记入出示者',
+      dividend: '本平台不就机构查询收取运营费；全平台唯一付费项为支付宝身份验证',
       statements: [
         {
           side: 'A',

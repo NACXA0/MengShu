@@ -181,14 +181,14 @@ function certify(state, opts) {
     return {
       ok: false,
       reason: 'service_down',
-      message: '身份核验服务暂不可用，请稍后重试',
+      message: '身份验证服务暂不可用，请稍后重试',
     };
   }
   if (opts.cancelled) {
-    return { ok: false, reason: 'cancelled', message: '已取消核验' };
+    return { ok: false, reason: 'cancelled', message: '已取消身份验证' };
   }
   if (opts.failed) {
-    return { ok: false, reason: 'failed', message: '核验未通过' };
+    return { ok: false, reason: 'failed', message: '身份验证未通过' };
   }
   return {
     ok: true,

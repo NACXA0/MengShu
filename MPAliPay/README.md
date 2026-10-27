@@ -17,7 +17,7 @@
 | 函数 | 作用 |
 |---|---|
 | authEnter / authLogout | 注册恢复 / 注销冷却 |
-| certifyCheck | 核验门 fail-closed |
+| certifyCheck | 身份验证门控 fail-closed（非人脸核验产品；零运营费） |
 | relationList / relationSave | 本 OPENID 关系档案 |
 | plazaGet / verifyRedeem / consent* / reportAdd | 样例公开页与账本 |
 | demoSetCertifyDown | 演示：核验服务中断 |

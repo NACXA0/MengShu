@@ -65,6 +65,7 @@ console.log('certifyCheck fail-closed');
   var r = handlers.certifyCheck({ action: 'sign' }, 'oid_b', repo);
   assert.strictEqual(r.ok, false);
   assert.strictEqual(r.reason, 'service_down');
+  assert.ok(r.message.indexOf('身份验证') >= 0);
   assert.ok(r.message.indexOf('暂不可用') >= 0);
   ok('服务中断不放行');
 

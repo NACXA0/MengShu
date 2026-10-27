@@ -9,7 +9,7 @@
         </view>
       </view>
       <view class="ghost-field pressable" onTap="toggleCertifyDown">
-        <text class="grow">核验服务中断</text>
+        <text class="grow">身份验证服务中断</text>
         <text class="type-caption">{{certifyDown ? '已中断' : '正常'}}</text>
       </view>
       <view class="ghost-field pressable" a:if="{{hasSession}}" onTap="clearSessionKeepBound">

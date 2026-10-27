@@ -17,7 +17,7 @@
     <view class="block">
       <statement-card statements="{{profile.statements}}" />
     </view>
-    <view class="type-caption div-line">{{profile.dividend}}</view>
+    <view class="type-caption div-line" a:if="{{profile.dividend}}">{{profile.dividend}}</view>
     <view class="ad-card">
       <view class="ad-tag">广告</view>
       <view class="type-legal">婚恋服务机构可申请查询已公示字段。</view>

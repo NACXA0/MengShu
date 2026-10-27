@@ -8,7 +8,7 @@
       <view class="lines">
         <view class="type-body">未被篡改</view>
         <view class="type-body">宣誓有效</view>
-        <view class="type-body">核身有效</view>
+        <view class="type-body">身份验证有效</view>
       </view>
       <fact-column rows="{{rows}}" />
       <view class="gold-slot" a:if="{{gold}}">

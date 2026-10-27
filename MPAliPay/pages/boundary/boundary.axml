@@ -5,6 +5,6 @@
       <view class="leaf"></view>
       <view class="leaf"></view>
     </view>
-    <view class="type-caption cap">身份与档案走支付宝云函数；口令仍在本机。真实刷脸与国密不在此端。</view>
+    <view class="type-caption cap">身份与档案走支付宝云函数；口令仍在本机。正式环境仅支付宝「身份验证」按次计费，平台不收运营费；国密与真实验证不在此壳。</view>
   </view>
 </view>
