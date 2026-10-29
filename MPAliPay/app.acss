@@ -63,14 +63,37 @@ page {
 }
 
 .depth-page {
-  --paper: #12293e;
+  --paper: #0d1b2a;
   --paper-attach: #152238;
   --ink-jiao: #e8ecef;
   --ink-nong: #e8ecef;
   --ink-zhong: #a0aec0;
   --ink-dan: #718096;
   --ink-qing: #2c3a4a;
-  background-color: #12293e;
+  --seal-gold: #d4b876;
+  background-color: #0d1b2a;
+}
+
+.depth-page .btn {
+  border-color: var(--ink-nong);
+  color: var(--ink-nong);
+}
+
+.depth-page .btn-fill {
+  background: var(--seal-gold);
+  border-color: var(--seal-gold);
+  color: #0d1b2a;
+}
+
+.depth-page .input-line,
+.depth-page .field-line {
+  border-bottom-color: var(--ink-qing);
+  color: var(--ink-jiao);
+}
+
+.depth-page .ghost-field.alert,
+.depth-page .alert {
+  color: var(--seal-alert);
 }
 
 .theme-dark.depth-page {

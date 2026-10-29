@@ -6,10 +6,11 @@ Component({
   props: {
     title: '',
     showBack: false,
-    plaza: true,
+    plaza: false,
     report: false,
     depth: false,
     scrolled: false,
+    zone: '',
     onBack: function () {},
     onReport: function () {},
   },
@@ -18,10 +19,12 @@ Component({
     tone: 'ink',
     title: '',
     showBack: false,
-    plaza: true,
+    plaza: false,
     report: false,
     depth: false,
     scrolled: false,
+    zone: '',
+    zoneLabel: '',
   },
   didMount: function () {
     this.syncProps(this.props);
@@ -32,15 +35,23 @@ Component({
   methods: {
     syncProps: function (p) {
       p = p || {};
+      var zone = p.zone || '';
+      if (!zone && p.plaza) zone = 'plaza';
+      if (!zone && p.depth) zone = 'vault';
+      var zoneLabel = '';
+      if (zone === 'vault') zoneLabel = 'Vault';
+      else if (zone === 'plaza') zoneLabel = 'Plaza';
       this.setData({
         layout: nav.getNavLayout(),
-        tone: p.depth ? 'night' : theme.iconTone(),
+        tone: p.depth || zone === 'vault' ? 'night' : theme.iconTone(),
         title: p.title || '',
         showBack: !!p.showBack,
-        plaza: p.plaza !== false,
+        plaza: !!p.plaza,
         report: !!p.report,
         depth: !!p.depth,
         scrolled: !!p.scrolled,
+        zone: zone,
+        zoneLabel: zoneLabel,
       });
     },
     onBackTap: function () {

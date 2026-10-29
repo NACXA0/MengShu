@@ -1,5 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="举报" showBack="{{true}}" plaza="{{true}}" />
+  <nav-bar title="举报" showBack="{{true}}" zone="plaza" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view
       class="ghost-field pressable"

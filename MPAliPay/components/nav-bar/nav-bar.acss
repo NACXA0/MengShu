@@ -54,3 +54,13 @@
   border-radius: 999rpx;
   height: 40rpx;
 }
+
+.pill-vault {
+  border-color: var(--seal-gold);
+  color: var(--seal-gold);
+}
+
+.pill-plaza {
+  border-color: var(--ink-nong);
+  color: var(--ink-nong);
+}

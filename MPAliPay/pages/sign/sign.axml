@@ -1,38 +1,47 @@
-<view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="双签" showBack="{{true}}" plaza="{{true}}" />
+<view class="screen depth-page {{themeClass}} pad-bottom-action">
+  <nav-bar title="双签" showBack="{{true}}" zone="vault" depth="{{true}}" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{view}}">
     <view class="type-h2">{{view.title}}</view>
-    <view class="type-caption">状态：{{view.displayLabel}}</view>
-    <view class="mono type-legal" a:if="{{view.txId}}">{{view.txId}}</view>
-    <view class="type-caption" a:if="{{view.anchoredLabel}}">{{view.anchoredLabel}}</view>
-    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+    <view class="type-caption status">状态：{{view.displayLabel}}</view>
+    <view class="mono type-legal" a:if="{{view.txId && !ritual}}">{{view.txId}}</view>
+    <view class="type-caption" a:if="{{view.anchoredLabel && !ritual}}">{{view.anchoredLabel}}</view>
+    <view class="type-legal err" a:if="{{message && !ritual}}">{{message}}</view>
 
-    <view class="ghost-field pressable" onTap="switchRole">
+    <view class="ghost-field pressable" a:if="{{!ritual}}" onTap="switchRole">
       <text class="grow">切换角色</text>
       <text class="type-caption">{{role === 'A' ? '邀请方 A' : '对方 B'}}</text>
     </view>
 
-    <block a:if="{{role === 'B' && view.status === 'INVITED' && view.inviteeView !== 'VOIDED'}}">
-      <view class="action-tray">
-        <view class="btn grow pressable" onTap="decline">拒绝</view>
-        <view class="btn btn-fill grow pressable" onTap="accept">接受</view>
-      </view>
-    </block>
-
-    <block a:if="{{view.status === 'DRAFTING'}}">
-      <view class="type-body">双方须各自通过本人核验后完成双签。</view>
+    <block a:if="{{view.status === 'DRAFTING' && !ritual}}">
+      <view class="type-body">双方须各自通过身份验证后完成双签。</view>
       <view class="type-caption">A {{view.certified.A ? '已确认' : '未确认'}} · B {{view.certified.B ? '已确认' : '未确认'}}</view>
-      <view class="action-tray">
-        <view class="btn btn-fill grow pressable" onTap="goCertify">本方核验确认</view>
-      </view>
     </block>
 
-    <block a:if="{{view.status === 'SIGNED'}}">
-      <view class="type-body">已双签（本地模拟）</view>
-      <view class="mono type-legal">{{view.digest}}</view>
+    <block a:if="{{view.status === 'SIGNED' || ritual}}">
+      <view class="ritual">
+        <view class="seal-slot {{showSeal ? 'visible' : ''}}">
+          <ms-seal a:if="{{showSeal}}" kind="meng" size="{{160}}" drop="{{sealDrop}}" />
+        </view>
+        <view class="type-body ritual-label" a:if="{{showSeal}}">已双签</view>
+        <view class="mono type-legal digest" a:if="{{digestShown}}">{{digestShown}}</view>
+        <view class="type-caption" a:if="{{ritualDone && view.anchoredLabel}}">{{view.anchoredLabel}}</view>
+      </view>
     </block>
   </view>
   <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:else>
     <view class="type-h3">未找到关系</view>
   </view>
+
+  <action-bar
+    a:if="{{role === 'B' && view && view.status === 'INVITED' && view.inviteeView !== 'VOIDED'}}"
+    leftText="拒绝"
+    rightText="接受"
+    onLeft="decline"
+    onRight="accept"
+  />
+  <action-bar
+    a:if="{{view && view.status === 'DRAFTING' && !ritual}}"
+    single="本方身份验证确认"
+    onSingle="goCertify"
+  />
 </view>

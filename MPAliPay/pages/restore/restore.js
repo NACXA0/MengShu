@@ -34,7 +34,8 @@ Page({
     }
     vaultSession.setSessionPass(this.data.pass);
     vaultSession.persist(v);
-    this.setData({ message: '已恢复（关系列表为空，除非你另行导入）' });
+    this.setData({ message: '' });
+    platform.showToast('已恢复');
     setTimeout(function () {
       platform.navigateBack(1);
     }, 600);

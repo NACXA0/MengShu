@@ -55,5 +55,6 @@ Page({
   onCopy: function () {
     var p = this.data.profile;
     platform.setClipboard(p ? p.publicId : '');
+    platform.showToast('已复制链接标识');
   },
 });

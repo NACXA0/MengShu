@@ -1,5 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-tab">
-  <nav-bar title="核验" plaza="{{true}}" scrolled="{{scrolled}}" />
+  <nav-bar title="核验" zone="plaza" scrolled="{{scrolled}}" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view class="finder pressable" onTap="onScan">
       <view class="corner corner-tl"></view>
@@ -31,6 +31,14 @@
         <text class="mono">{{item.tail}}</text>
         <text class="tnum time">{{item.time}}</text>
       </view>
+    </view>
+    <view class="empty" a:elif="{{!hint}}">
+      <view class="empty-rings" aria-hidden="true">
+        <view class="ring"></view>
+        <view class="ring ring-b"></view>
+      </view>
+      <view class="type-caption">尚无核验记录</view>
+      <view class="type-caption empty-hint">输入或扫描授权码后，结果会出现在此</view>
     </view>
   </view>
 </view>

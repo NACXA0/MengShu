@@ -134,8 +134,20 @@ Page({
   startLogout: function () {
     if (!this.data.hasSession) return;
     haptics.paper();
-    this.setData({ awaitingLogout: true });
-    platform.navigateTo('/pages/certify/certify?action=logout');
+    var that = this;
+    platform.confirm(
+      {
+        title: '注销账号',
+        content: '注销后进入冷静期，期满前不可重新注册。须先完成身份验证。',
+        confirmButtonText: '继续',
+        cancelButtonText: '取消',
+      },
+      function (ok) {
+        if (!ok) return;
+        that.setData({ awaitingLogout: true });
+        platform.navigateTo('/pages/certify/certify?action=logout');
+      }
+    );
   },
 
   finishLogout: function () {

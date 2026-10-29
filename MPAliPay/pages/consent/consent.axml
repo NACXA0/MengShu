@@ -1,5 +1,5 @@
 <view class="screen depth-page {{themeClass}} {{phase === 'enter' || phase === 'leave' ? (phase === 'leave' ? 'leaving' : 'entering') : ''}} pad-bottom-action">
-  <nav-bar title="授权" showBack="{{true}}" plaza="{{false}}" depth="{{true}}" onBack="onBack" />
+  <nav-bar title="授权" showBack="{{true}}" zone="vault" depth="{{true}}" onBack="onBack" />
   <scroll-view scroll-y="{{true}}" class="scroller pad-page" style="{{layout.bodyPadStyle}}" onScroll="onScroll">
     <block a:if="{{broken}}">
       <view class="type-h2">无法出示授权</view>
@@ -23,10 +23,10 @@
       <view class="type-legal block">保存期限：{{org.retain}}</view>
       <view class="type-legal block">你的权利：{{org.rights}}</view>
       <view class="type-legal block">本次传输只含你勾选的公示摘要。关系档案明细不在可授权字段集合中。</view>
-      <view class="ghost-field pressable" onTap="toggle90">
-        <view class="check {{days90 ? 'check-on' : ''}}"></view>
-        <text>90 天内再次拉取</text>
-      </view>
+      <view
+        class="type-caption allow90 pressable {{!canAllow ? 'dim' : ''}}"
+        onTap="allow90"
+      >允许该机构 90 天内再次拉取</view>
       <view class="type-caption demo pressable" onTap="timeoutDemo">演示超时</view>
     </block>
   </scroll-view>
@@ -34,7 +34,7 @@
     a:if="{{!broken}}"
     leftText="拒绝"
     rightText="允许本次"
-    rightFill="{{canAllow}}"
+    rightFill="{{false}}"
     rightDisabled="{{!canAllow}}"
     onLeft="deny"
     onRight="allow"

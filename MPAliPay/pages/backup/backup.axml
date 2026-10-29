@@ -1,9 +1,9 @@
-<view class="screen {{themeClass}}">
-  <nav-bar title="助记词" showBack="{{true}}" plaza="{{true}}" />
+<view class="screen depth-page {{themeClass}} pad-bottom-action">
+  <nav-bar title="助记词" showBack="{{true}}" zone="vault" depth="{{true}}" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view class="type-caption">{{note}}</view>
     <view class="mono words">{{mnemonic}}</view>
     <view class="type-legal err" a:if="{{message}}">{{message}}</view>
-    <view class="btn btn-fill grow pressable" onTap="copy" a:if="{{mnemonic}}">复制</view>
   </view>
+  <action-bar a:if="{{mnemonic}}" single="复制" onSingle="copy" />
 </view>

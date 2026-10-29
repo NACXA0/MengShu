@@ -13,10 +13,16 @@ Page({
     role: 'A',
     message: '',
     awaitingCertify: false,
+    ritual: false,
+    showSeal: false,
+    sealDrop: false,
+    digestShown: '',
+    ritualDone: false,
   },
 
   onLoad: function (q) {
     this._id = (q && q.id) || '';
+    this._playedRitual = false;
     this.setData({ layout: nav.getNavLayout() });
     this.refresh();
   },
@@ -37,8 +43,8 @@ Page({
         this.setData({
           message:
             ticket.reason === 'service_down'
-              ? '身份核验服务暂不可用，请稍后重试'
-              : '核验未完成，双签未推进',
+              ? '身份验证服务暂不可用，请稍后重试'
+              : '身份验证未完成，双签未推进',
         });
       }
     }
@@ -54,12 +60,63 @@ Page({
       for (var i = 0; i < list.length; i++) {
         if (list[i].id === that._id) rel = list[i];
       }
+      var view = rel ? sign.viewForRole(rel, role) : null;
       that.setData({
         rel: rel,
-        view: rel ? sign.viewForRole(rel, role) : null,
+        view: view,
         role: role,
       });
+      if (view && view.status === 'SIGNED' && !that._playedRitual) {
+        that.playRitual(view.digest || '');
+      } else if (view && view.status === 'SIGNED' && that._playedRitual) {
+        that.setData({
+          ritual: true,
+          showSeal: true,
+          sealDrop: false,
+          digestShown: view.digest || '',
+          ritualDone: true,
+        });
+      }
     });
+  },
+
+  playRitual: function (digest) {
+    var that = this;
+    this._playedRitual = true;
+    this.setData({
+      ritual: true,
+      showSeal: false,
+      sealDrop: false,
+      digestShown: '',
+      ritualDone: false,
+      message: '',
+    });
+    setTimeout(function () {
+      that.setData({ showSeal: true, sealDrop: true });
+      haptics.seal();
+    }, 280);
+    setTimeout(function () {
+      that.typeDigest(digest || '');
+    }, 700);
+  },
+
+  typeDigest: function (full) {
+    var that = this;
+    var i = 0;
+    var step = function () {
+      i += 1;
+      that.setData({ digestShown: full.slice(0, i) });
+      if (i < full.length) {
+        setTimeout(step, 18);
+      } else {
+        that.setData({ ritualDone: true });
+      }
+    };
+    if (!full) {
+      this.setData({ ritualDone: true });
+      return;
+    }
+    step();
   },
 
   persistRel: function (rel) {
@@ -89,7 +146,8 @@ Page({
     var r = sign.declineInvite(this.data.rel);
     if (!r.ok) return;
     this.persistRel(r.relation);
-    this.setData({ message: '已拒绝（邀请方仍见等待）' });
+    // 邀请方侧恒定「等待」——本方仅自见，不展示拒绝原因给邀请方
+    this.setData({ message: '' });
   },
 
   goCertify: function () {
@@ -109,7 +167,7 @@ Page({
     cloud.call('certifyCheck', { action: 'sign' }).then(function (certifyResult) {
       if (!certifyResult || !certifyResult.ok) {
         that.setData({
-          message: (certifyResult && certifyResult.message) || '核验未通过',
+          message: (certifyResult && certifyResult.message) || '身份验证未通过',
         });
         return;
       }
@@ -120,7 +178,7 @@ Page({
       }
       that.persistRel(r.relation).then(function () {
         if (r.sealed) {
-          that.setData({ message: '双方已确认 · ' + (r.relation.anchoredLabel || '') });
+          that.setData({ message: '' });
         } else {
           that.setData({ message: '本方已确认，等待另一方' });
         }

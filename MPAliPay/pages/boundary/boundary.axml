@@ -1,5 +1,5 @@
 <view class="screen depth-page vault {{themeClass}} {{phase === 'enter' || phase === 'leave' ? (phase === 'leave' ? 'leaving' : 'entering') : ''}}">
-  <nav-bar title="" showBack="{{true}}" plaza="{{false}}" depth="{{true}}" onBack="onBack" />
+  <nav-bar title="" showBack="{{true}}" zone="vault" depth="{{true}}" onBack="onBack" />
   <view class="stage" style="{{layout.bodyPadStyle}}">
     <view class="door {{nudge ? 'nudge' : ''}}" onTap="push">
       <view class="leaf"></view>

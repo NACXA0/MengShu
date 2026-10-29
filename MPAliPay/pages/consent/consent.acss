@@ -20,6 +20,18 @@
   margin-top: 32rpx;
 }
 
+.allow90 {
+  margin-top: 48rpx;
+  text-align: center;
+  text-decoration: underline;
+  color: var(--ink-zhong);
+}
+
+.allow90.dim {
+  opacity: 0.4;
+}
+
 .demo {
-  margin: 64rpx 0 48rpx;
+  margin: 32rpx 0 48rpx;
+  text-align: center;
 }

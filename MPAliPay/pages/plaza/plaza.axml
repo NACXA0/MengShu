@@ -1,5 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="公开页" showBack="{{true}}" report="{{true}}" onReport="onReport" />
+  <nav-bar title="公开页" showBack="{{true}}" zone="plaza" report="{{true}}" onReport="onReport" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{profile && !profile.withdrawn}}">
     <view class="head">
       <view class="name-block">

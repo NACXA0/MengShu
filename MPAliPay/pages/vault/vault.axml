@@ -1,5 +1,5 @@
-<view class="screen {{themeClass}} pad-bottom-tab">
-  <nav-bar title="档案" plaza="{{true}}" />
+<view class="screen depth-page {{themeClass}} pad-bottom-tab">
+  <nav-bar title="档案" zone="vault" depth="{{true}}" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view class="type-caption note">{{note}}</view>
 
@@ -38,7 +38,14 @@
             <view class="type-caption">{{item.displayLabel}}{{item.anchoredLabel ? ' · ' + item.anchoredLabel : ''}}</view>
           </view>
         </view>
-        <view class="type-caption" a:if="{{!relations.length}}">尚无关系档案</view>
+        <view class="empty" a:if="{{!relations.length}}">
+          <view class="empty-rings" aria-hidden="true">
+            <view class="ring"></view>
+            <view class="ring ring-b"></view>
+          </view>
+          <view class="type-caption">尚无关系档案</view>
+          <view class="type-caption empty-hint">发起双签后，关系会留在本机保险库</view>
+        </view>
       </view>
       <view class="group">
         <view class="ghost-field pressable" onTap="openBackup">

@@ -106,6 +106,42 @@ function vibrateShort() {
   }
 }
 
+function showToast(content, opts) {
+  opts = opts || {};
+  if (hasMy() && typeof my.showToast === 'function') {
+    try {
+      my.showToast({
+        content: String(content || ''),
+        type: opts.type || 'none',
+        duration: opts.duration || 2000,
+      });
+      return;
+    } catch (e) {}
+  }
+}
+
+function confirm(opts, cb) {
+  opts = opts || {};
+  if (hasMy() && typeof my.confirm === 'function') {
+    try {
+      my.confirm({
+        title: opts.title || '确认',
+        content: opts.content || '',
+        confirmButtonText: opts.confirmButtonText || '确认',
+        cancelButtonText: opts.cancelButtonText || '取消',
+        success: function (res) {
+          if (typeof cb === 'function') cb(!!(res && res.confirm));
+        },
+        fail: function () {
+          if (typeof cb === 'function') cb(false);
+        },
+      });
+      return;
+    } catch (e) {}
+  }
+  if (typeof cb === 'function') cb(true);
+}
+
 function setNavigationBar(opts) {
   if (!hasMy() || typeof my.setNavigationBar !== 'function') return;
   try {
@@ -168,6 +204,8 @@ module.exports = {
   setClipboard: setClipboard,
   scanCode: scanCode,
   vibrateShort: vibrateShort,
+  showToast: showToast,
+  confirm: confirm,
   setNavigationBar: setNavigationBar,
   getSystemInfo: getSystemInfo,
   tryGetAuthCode: tryGetAuthCode,

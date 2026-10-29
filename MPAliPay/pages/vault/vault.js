@@ -77,7 +77,8 @@ Page({
     }
     vaultSession.setSessionPass(this.data.pass);
     vaultSession.persist(v);
-    this.setData({ pass: '', message: '已设置口令（本机）' });
+    this.setData({ pass: '', message: '' });
+    platform.showToast('口令已设置');
     this.refreshLockUi();
     this.loadRelations();
   },
@@ -92,6 +93,7 @@ Page({
     }
     vaultSession.setSessionPass(this.data.pass);
     this.setData({ pass: '', message: '' });
+    platform.showToast('已解锁');
     this.refreshLockUi();
     this.loadRelations();
   },
@@ -100,6 +102,7 @@ Page({
     vaultSession.clearSession();
     this.setData({ relations: [] });
     this.refreshLockUi();
+    platform.showToast('已锁定');
   },
 
   switchRole: function () {
@@ -141,11 +144,24 @@ Page({
 
   destroyVault: function () {
     haptics.paper();
-    var v = vaultSession.loadUnlocked();
-    vaultLib.destroy(v);
-    vaultSession.clearSession();
-    vaultSession.persist(v);
-    this.setData({ message: '本机保险库已销毁', relations: [] });
-    this.refreshLockUi();
+    var that = this;
+    platform.confirm(
+      {
+        title: '销毁保险库',
+        content: '将清除本机口令与助记词派生密钥，不可恢复。确定继续？',
+        confirmButtonText: '销毁',
+        cancelButtonText: '取消',
+      },
+      function (ok) {
+        if (!ok) return;
+        var v = vaultSession.loadUnlocked();
+        vaultLib.destroy(v);
+        vaultSession.clearSession();
+        vaultSession.persist(v);
+        that.setData({ message: '', relations: [] });
+        that.refreshLockUi();
+        platform.showToast('保险库已销毁');
+      }
+    );
   },
 });

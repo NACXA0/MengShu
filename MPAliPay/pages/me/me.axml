@@ -1,5 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-tab">
-  <nav-bar title="盟书" plaza="{{true}}" />
+  <nav-bar title="盟书" zone="plaza" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view class="group">
       <view class="ghost-field">
@@ -17,7 +17,7 @@
         <text class="type-caption">US-F9</text>
       </view>
       <view class="ghost-field pressable alert" a:if="{{hasSession}}" onTap="startLogout">
-        <text>注销账号（须核验）</text>
+        <text>注销账号（须身份验证）</text>
       </view>
     </view>
 

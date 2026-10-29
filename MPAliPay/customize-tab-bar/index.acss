@@ -41,9 +41,13 @@
 
 .lab {
   margin-top: 4rpx;
-  font-size: 20rpx;
-  line-height: 28rpx;
+  font-size: 24rpx;
+  line-height: 32rpx;
   color: var(--ink-zhong);
+}
+
+.on {
+  background: var(--paper-attach);
 }
 
 .on .lab {

@@ -52,3 +52,40 @@
   font-size: 24rpx;
   color: var(--ink-zhong);
 }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64rpx 0 24rpx;
+}
+
+.empty-rings {
+  position: relative;
+  width: 120rpx;
+  height: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.ring {
+  position: absolute;
+  top: 0;
+  left: 8rpx;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 999rpx;
+  border: 1.5px solid var(--ink-nong);
+  opacity: 0.55;
+  box-sizing: border-box;
+}
+
+.ring-b {
+  left: auto;
+  right: 8rpx;
+  opacity: 0.35;
+}
+
+.empty-hint {
+  margin-top: 8rpx;
+  text-align: center;
+}

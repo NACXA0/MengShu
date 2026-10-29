@@ -1,4 +1,4 @@
-.type-caption {
+.status {
   margin: 12rpx 0 24rpx;
 }
 
@@ -7,6 +7,35 @@
   margin: 16rpx 0;
 }
 
-.action-tray {
+.ritual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64rpx;
+}
+
+.seal-slot {
+  height: 180rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.seal-slot.visible {
+  opacity: 1;
+}
+
+.ritual-label {
   margin-top: 32rpx;
+  color: var(--seal-gold);
+}
+
+.digest {
+  margin-top: 24rpx;
+  text-align: center;
+  word-break: break-all;
+  min-height: 88rpx;
+  color: var(--ink-zhong);
 }

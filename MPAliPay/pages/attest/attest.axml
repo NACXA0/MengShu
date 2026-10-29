@@ -1,5 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="存证" showBack="{{true}}" plaza="{{true}}" />
+  <nav-bar title="存证" showBack="{{true}}" zone="plaza" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{profile}}">
     <view class="line pressable" data-key="digest" onTap="copy">
       <text class="lab">哈希</text>

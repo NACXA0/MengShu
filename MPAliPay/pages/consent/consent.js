@@ -85,6 +85,13 @@ Page({
     this.setData({ days90: !this.data.days90 });
   },
 
+  allow90: function () {
+    if (!this.data.canAllow) return;
+    haptics.paper();
+    this.setData({ days90: true, awaitingCertify: true });
+    platform.navigateTo('/pages/certify/certify?action=consent');
+  },
+
   onScroll: function (e) {
     var d = e.detail || {};
     if (d.scrollHeight - d.scrollTop - d.clientHeight < 24) {
@@ -128,6 +135,7 @@ Page({
       .call('consentAdd', {
         org: org.name,
         fields: granted.join('、'),
+        days90: !!that.data.days90,
       })
       .then(function () {
         that.leave(function () {

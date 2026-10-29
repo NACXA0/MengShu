@@ -1,18 +1,23 @@
 <view class="screen depth-page {{themeClass}} pad-bottom-action">
-  <nav-bar title="身份验证" showBack="{{true}}" plaza="{{false}}" depth="{{true}}" onBack="onBack" />
+  <nav-bar title="身份验证" showBack="{{true}}" zone="vault" depth="{{true}}" onBack="onBack" />
   <view class="body pad-page" style="{{layout.bodyPadStyle}}">
     <view class="type-h2">{{actionLabel}}</view>
     <view class="type-body">敏感操作须通过支付宝「身份验证」（非「人脸核验」产品）。本页为本地模拟门控；正式环境按开放平台计费，盟书不另收运营费。</view>
+    <view class="seal-slot" a:if="{{showSeal}}">
+      <ms-seal kind="yanqi" size="{{128}}" drop="{{true}}" />
+    </view>
     <view class="type-legal err" a:if="{{message}}">{{message}}</view>
-    <view class="type-caption" a:if="{{!down}}">确认你本人在场后继续。</view>
+    <view class="type-caption" a:if="{{!down && !busy}}">确认你本人在场后继续。</view>
+    <view class="type-caption" a:if="{{busy}}">正在确认…</view>
   </view>
   <action-bar
-    a:if="{{!down}}"
+    a:if="{{!down && !showSeal}}"
     leftText="取消"
     rightText="确认在场"
     rightFill="{{true}}"
+    rightDisabled="{{busy}}"
     onLeft="cancel"
     onRight="confirm"
   />
-  <action-bar a:else single="返回" onSingle="cancel" />
+  <action-bar a:elif="{{down}}" single="返回" onSingle="cancel" />
 </view>

@@ -19,6 +19,8 @@ Page({
     side: '',
     message: '',
     down: false,
+    busy: false,
+    showSeal: false,
   },
 
   onLoad: function (q) {
@@ -38,25 +40,34 @@ Page({
   },
 
   onBack: function () {
+    if (this.data.busy) return;
     this.finish(false, 'cancelled');
   },
 
   confirm: function () {
+    if (this.data.busy || this.data.down) return;
     haptics.paper();
+    this.setData({ busy: true, message: '' });
     var that = this;
     cloud.call('certifyCheck', { action: this.data.action }).then(function (result) {
       if (!result || !result.ok) {
         that.setData({
-          message: (result && result.message) || '核验未通过',
+          busy: false,
+          message: (result && result.message) || '身份验证未通过',
           down: result && result.reason === 'service_down',
         });
         return;
       }
-      that.finish(true, 'ok');
+      that.setData({ showSeal: true });
+      haptics.seal();
+      setTimeout(function () {
+        that.finish(true, 'ok');
+      }, 520);
     });
   },
 
   cancel: function () {
+    if (this.data.busy) return;
     haptics.paper();
     this.finish(false, 'cancelled');
   },

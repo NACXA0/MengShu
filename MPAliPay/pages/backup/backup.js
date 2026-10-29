@@ -26,6 +26,7 @@ Page({
   copy: function () {
     haptics.paper();
     platform.setClipboard(this.data.mnemonic);
-    this.setData({ message: '已复制（本地模拟）' });
+    this.setData({ message: '' });
+    platform.showToast('已复制');
   },
 });
