@@ -1,0 +1,35 @@
+.group {
+  margin-bottom: 32rpx;
+}
+
+.field-line {
+  height: 88rpx;
+  margin-top: 8rpx;
+  border-bottom: 1px solid var(--ink-qing);
+  font-size: 28rpx;
+  color: var(--ink-jiao);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picker-line text:first-child {
+  font-size: 28rpx;
+}
+
+.disclose {
+  border: 1px solid var(--seal-gold);
+  border-radius: 8rpx;
+  padding: 32rpx;
+  margin-top: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.disclose .type-legal {
+  margin-top: 12rpx;
+}
+
+.err {
+  color: var(--seal-alert);
+  margin-bottom: 16rpx;
+}

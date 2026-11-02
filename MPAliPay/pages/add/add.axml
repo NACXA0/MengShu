@@ -1,0 +1,42 @@
+<view class="screen depth-page {{themeClass}} pad-bottom-action">
+  <view class="body pad-page">
+    <view class="group">
+      <view class="type-body">关系称呼</view>
+      <input
+        class="field-line"
+        value="{{title}}"
+        placeholder="如：与林晚"
+        maxlength="20"
+        onInput="onTitle"
+      />
+    </view>
+    <view class="group">
+      <view class="type-body">性质</view>
+      <picker range="{{natures}}" onChange="onNature">
+        <view class="field-line picker-line">
+          <text>{{nature}}</text>
+          <text class="type-caption">选择 →</text>
+        </view>
+      </picker>
+    </view>
+    <view class="group">
+      <view class="type-body">开始月份</view>
+      <input
+        class="mono field-line"
+        value="{{start}}"
+        placeholder="如 2026-11"
+        maxlength="7"
+        onInput="onStart"
+      />
+    </view>
+
+    <view class="disclose">
+      <view class="type-body">对方将看到</view>
+      <view class="type-legal">对方接受邀请时，可见你的档案摘要：存证段数与承诺根指纹，内容不可见。</view>
+      <view class="type-legal">双签即互相锚定档案承诺。此后任何新增或关闭关系都会改变根，可被对方核验发现、但不可见明细。</view>
+    </view>
+
+    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
+  </view>
+  <action-bar single="生成邀请，进入双签" singleDisabled="{{busy}}" onSingle="submit" />
+</view>

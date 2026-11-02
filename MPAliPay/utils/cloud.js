@@ -68,6 +68,7 @@ var NAME_TO_HANDLER = {
   relationList: 'relationList',
   relationSave: 'relationSave',
   plazaGet: 'plazaGet',
+  plazaSet: 'plazaSet',
   verifyRedeem: 'verifyRedeem',
   verifyLogs: 'verifyLogs',
   consentAdd: 'consentAdd',

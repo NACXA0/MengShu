@@ -87,6 +87,24 @@ function createMemoryRepo(initial) {
       return null;
     },
 
+    getProfileByOwner: function (openId) {
+      for (var i = 0; i < state.profiles.length; i++) {
+        if (state.profiles[i].ownerOpenId === openId) return clone(state.profiles[i]);
+      }
+      return null;
+    },
+
+    putProfile: function (profile) {
+      for (var i = 0; i < state.profiles.length; i++) {
+        if (state.profiles[i].id === profile.id) {
+          state.profiles[i] = clone(profile);
+          return clone(profile);
+        }
+      }
+      state.profiles.push(clone(profile));
+      return clone(profile);
+    },
+
     listProfiles: function () {
       return clone(state.profiles);
     },

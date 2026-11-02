@@ -1,6 +1,5 @@
-<view class="screen {{themeClass}} pad-bottom-tab">
-  <nav-bar title="核验" zone="plaza" scrolled="{{scrolled}}" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+<view class="screen {{themeClass}} pad-bottom-safe">
+  <view class="body pad-page">
     <view class="finder pressable" onTap="onScan">
       <view class="corner corner-tl"></view>
       <view class="corner corner-tr"></view>

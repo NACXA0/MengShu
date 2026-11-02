@@ -1,4 +1,3 @@
-var nav = require('../../utils/nav');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 
@@ -6,7 +5,6 @@ var REASONS = ['陈述不实', '含有他人身份信息', '冒用公开页', '�
 
 Page({
   data: {
-    layout: {},
     reasons: REASONS,
     picked: -1,
     done: false,
@@ -16,7 +14,6 @@ Page({
 
   onLoad: function (q) {
     this.setData({
-      layout: nav.getNavLayout(),
       profileId: (q && q.id) || '',
     });
   },

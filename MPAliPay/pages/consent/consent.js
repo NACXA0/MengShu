@@ -1,13 +1,12 @@
-var nav = require('../../utils/nav');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 var platform = require('../../utils/platform');
 var shell = require('../../utils/shell');
+var nav = require('../../utils/nav');
 
 Page({
   depthPage: true,
   data: {
-    layout: {},
     phase: 'enter',
     org: null,
     broken: false,
@@ -22,7 +21,6 @@ Page({
     var that = this;
     var orgId = (q && q.org) || 'org_seed';
     this.setData({
-      layout: nav.getNavLayout(),
       phase: nav.reduceMotion() ? 'in' : 'enter',
     });
     cloud.call('getOrg', { id: orgId }).then(function (res) {

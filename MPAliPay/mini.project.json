@@ -8,5 +8,12 @@
     "parallel": true
   },
   "miniprogramRoot": "./",
-  "cloudbaseRoot": "cloud/"
+  "cloudbaseRoot": "cloud/",
+  "exclude": [
+    "utils/store.js",
+    "cloud/**",
+    "README.md",
+    "mock/**",
+    "scripts/**"
+  ]
 }

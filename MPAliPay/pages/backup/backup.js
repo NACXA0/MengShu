@@ -1,19 +1,17 @@
-var nav = require('../../utils/nav');
 var vaultLib = require('../../utils/vault');
 var vaultSession = require('../../utils/vaultSession');
 var platform = require('../../utils/platform');
 var haptics = require('../../utils/haptics');
 
 Page({
+  depthPage: true,
   data: {
-    layout: {},
     mnemonic: '',
     note: '',
     message: '',
   },
 
   onLoad: function () {
-    this.setData({ layout: nav.getNavLayout() });
     var v = vaultSession.loadUnlocked();
     var r = vaultLib.exportBackup(v);
     if (!r.ok) {

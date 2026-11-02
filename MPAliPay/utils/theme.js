@@ -14,7 +14,7 @@ var DARK_CHROME = {
 
 var DEPTH_CHROME = {
   frontColor: '#ffffff',
-  backgroundColor: '#12293E',
+  backgroundColor: '#0d1b2a',
 };
 
 var DEPTH_NIGHT_CHROME = {
@@ -27,7 +27,7 @@ function getPreference() {
     var v = platform.getStorage(STORAGE_KEY);
     if (v === 'light' || v === 'dark' || v === 'system') return v;
   } catch (e) {}
-  return 'system';
+  return 'light';
 }
 
 function setPreference(pref) {
@@ -58,10 +58,7 @@ function resolveClass() {
 function applyChrome(effective, depth) {
   var dark = effective === 'dark';
   var chrome = depth ? (dark ? DEPTH_NIGHT_CHROME : DEPTH_CHROME) : dark ? DARK_CHROME : LIGHT_CHROME;
-  platform.setNavigationBar({
-    frontColor: chrome.frontColor,
-    backgroundColor: chrome.backgroundColor,
-  });
+  platform.setNavigationBar({ frontColor: chrome.frontColor, backgroundColor: chrome.backgroundColor });
 }
 
 function applyToPage(page, depth) {

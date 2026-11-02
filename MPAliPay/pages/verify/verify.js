@@ -1,11 +1,9 @@
-var nav = require('../../utils/nav');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 var platform = require('../../utils/platform');
 
 Page({
   data: {
-    layout: {},
     scrolled: false,
     hint: true,
     code: '',
@@ -15,7 +13,6 @@ Page({
   },
 
   onLoad: function (q) {
-    this.setData({ layout: nav.getNavLayout() });
     var incoming = (q && (q.code || q.scene)) || '';
     if (incoming) {
       this.setData({ code: String(incoming).toUpperCase() });
@@ -24,9 +21,6 @@ Page({
   },
 
   onShow: function () {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setSelected(1);
-    }
     var app = getApp();
     var pending = app.globalData && app.globalData.pendingCode;
     var patch = {};

@@ -1,6 +1,5 @@
 <view class="screen depth-page {{themeClass}} {{phase === 'enter' || phase === 'leave' ? (phase === 'leave' ? 'leaving' : 'entering') : ''}} pad-bottom-action">
-  <nav-bar title="授权" showBack="{{true}}" zone="vault" depth="{{true}}" onBack="onBack" />
-  <scroll-view scroll-y="{{true}}" class="scroller pad-page" style="{{layout.bodyPadStyle}}" onScroll="onScroll">
+  <scroll-view scroll-y="{{true}}" class="scroller pad-page">
     <block a:if="{{broken}}">
       <view class="type-h2">无法出示授权</view>
       <view class="type-legal miss">缺失项：{{org.missing}}</view>

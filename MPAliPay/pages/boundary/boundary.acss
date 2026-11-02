@@ -1,5 +1,5 @@
 .vault {
-  background-color: #0d1b2a;
+  background-color: var(--depth-vault);
 }
 
 .theme-dark.vault {
@@ -19,12 +19,12 @@
   height: 360rpx;
   display: flex;
   flex-direction: row;
-  border: 1.5px solid #a0aec0;
+  border: 1.5px solid var(--ink-dan);
 }
 
 .leaf {
   flex: 1;
-  border-right: 1px solid #a0aec0;
+  border-right: 1px solid var(--ink-dan);
 }
 
 .leaf:last-child {
@@ -33,5 +33,5 @@
 
 .cap {
   margin-top: 48rpx;
-  color: #a0aec0;
+  color: var(--ink-dan);
 }

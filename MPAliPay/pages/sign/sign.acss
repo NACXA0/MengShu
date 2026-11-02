@@ -2,6 +2,21 @@
   margin: 12rpx 0 24rpx;
 }
 
+.peer-card {
+  border: 1px solid var(--seal-gold);
+  border-radius: 8rpx;
+  padding: 32rpx;
+  margin: 8rpx 0 32rpx;
+}
+
+.peer-card .type-caption {
+  margin-top: 8rpx;
+}
+
+.peer-card .drift {
+  color: var(--seal-alert);
+}
+
 .err {
   color: var(--seal-alert);
   margin: 16rpx 0;

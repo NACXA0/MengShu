@@ -1,6 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="结果" showBack="{{true}}" zone="plaza" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+  <view class="body pad-page">
     <block a:if="{{kind === 'pass'}}">
       <view class="axis">
         <ms-seal a:if="{{drop}}" kind="yanqi" size="{{128}}" drop="{{true}}" />

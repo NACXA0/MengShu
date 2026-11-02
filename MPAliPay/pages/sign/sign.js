@@ -1,4 +1,3 @@
-var nav = require('../../utils/nav');
 var platform = require('../../utils/platform');
 var cloud = require('../../utils/cloud');
 var shell = require('../../utils/shell');
@@ -6,13 +5,14 @@ var sign = require('../../utils/sign');
 var haptics = require('../../utils/haptics');
 
 Page({
+  depthPage: true,
   data: {
-    layout: {},
     rel: null,
     view: null,
     role: 'A',
     message: '',
     awaitingCertify: false,
+    peer: null,
     ritual: false,
     showSeal: false,
     sealDrop: false,
@@ -23,7 +23,6 @@ Page({
   onLoad: function (q) {
     this._id = (q && q.id) || '';
     this._playedRitual = false;
-    this.setData({ layout: nav.getNavLayout() });
     this.refresh();
   },
 
@@ -56,15 +55,31 @@ Page({
     var role = shell.getSignRole();
     cloud.call('relationList', {}).then(function (res) {
       var list = (res && res.relations) || [];
+      that._list = list;
       var rel = null;
       for (var i = 0; i < list.length; i++) {
         if (list[i].id === that._id) rel = list[i];
       }
       var view = rel ? sign.viewForRole(rel, role) : null;
+      var peer = null;
+      if (rel) {
+        var root = sign.commitmentRoot(list);
+        if (rel.status === sign.STATUS.SIGNED && rel.anchor) {
+          var drift = sign.anchorDrift(rel.anchor, list);
+          peer = {
+            count: rel.anchor.count || 0,
+            rootShort: (rel.anchor.root || root).slice(0, 8),
+            driftLabel: drift ? drift.label : '',
+          };
+        } else {
+          peer = { count: list.length, rootShort: root.slice(0, 8), driftLabel: '' };
+        }
+      }
       that.setData({
         rel: rel,
         view: view,
         role: role,
+        peer: peer,
       });
       if (view && view.status === 'SIGNED' && !that._playedRitual) {
         that.playRitual(view.digest || '');
@@ -171,7 +186,7 @@ Page({
         });
         return;
       }
-      var r = sign.markCertified(that.data.rel, side, certifyResult);
+      var r = sign.markCertified(that.data.rel, side, certifyResult, { relations: that._list });
       if (!r.ok) {
         that.setData({ message: r.message || '无法确认' });
         return;

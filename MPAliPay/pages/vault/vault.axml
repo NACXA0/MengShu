@@ -1,31 +1,37 @@
-<view class="screen depth-page {{themeClass}} pad-bottom-tab">
-  <nav-bar title="档案" zone="vault" depth="{{true}}" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+<view class="screen {{themeClass}}">
+  <view class="capsule-buttons" style="{{layout.capsuleButtonsStyle}}">
+    <view class="capsule-btn pressable" style="width:{{layout.gearSizeRpx}}rpx;height:{{layout.gearSizeRpx}}rpx;" onTap="onScan">
+      <ms-icon name="scan" size="{{layout.gearSizeRpx}}" />
+    </view>
+    <view class="capsule-btn pressable" style="width:{{layout.gearSizeRpx}}rpx;height:{{layout.gearSizeRpx}}rpx;" onTap="openSettings">
+      <ms-icon name="gear" size="{{layout.gearSizeRpx}}" />
+    </view>
+  </view>
+  <view class="body pad-page" style="{{layout.barePadStyle}}">
     <view class="type-caption note">{{note}}</view>
 
     <view class="group" a:if="{{!unlocked}}">
+      <view class="zone-row">
+        <text class="zone-chip">Vault</text>
+      </view>
       <view class="type-body">{{hasLock ? '输入口令解锁' : '设置口令（本地模拟）'}}</view>
       <input class="mono field-line" password value="{{pass}}" placeholder="口令" onInput="onPassInput" />
       <view class="type-legal err" a:if="{{message}}">{{message}}</view>
       <view class="action-tray">
         <view class="btn btn-fill grow pressable" onTap="onLockAction">{{hasLock ? '解锁' : '设置并打开'}}</view>
       </view>
-      <view class="ghost-field pressable" onTap="openRestore">
-        <text class="grow">用助记词恢复</text>
-      </view>
     </view>
 
     <block a:else>
-      <view class="group row">
-        <view class="ghost-field pressable grow" onTap="switchRole">
-          <text class="grow">当前角色</text>
-          <text class="type-caption">{{role === 'A' ? '邀请方 A' : '对方 B'}}</text>
+      <view class="overview pressable" onTap="copyRoot">
+        <view class="overview-head">
+          <text class="type-body overview-title">我的档案</text>
         </view>
+        <view class="type-caption">{{overview.lastLabel}}</view>
       </view>
+
+      <view class="type-caption sect">关系记录</view>
       <view class="group">
-        <view class="ghost-field pressable" onTap="startSign">
-          <text class="grow">发起双签（本地模拟）</text>
-        </view>
         <view
           class="ghost-field pressable"
           a:for="{{relations}}"
@@ -44,19 +50,20 @@
             <view class="ring ring-b"></view>
           </view>
           <view class="type-caption">尚无关系档案</view>
-          <view class="type-caption empty-hint">发起双签后，关系会留在本机保险库</view>
+          <view class="type-caption empty-hint">发起关系并双签后，记录会留在本机保险库</view>
         </view>
       </view>
-      <view class="group">
-        <view class="ghost-field pressable" onTap="openBackup">
-          <text class="grow">导出助记词</text>
-        </view>
-        <view class="ghost-field pressable" onTap="lockNow">
-          <text class="grow">锁定</text>
-        </view>
-        <view class="ghost-field pressable alert" onTap="destroyVault">
-          <text>销毁保险库</text>
-        </view>
+
+      <view class="plaza-card pressable" onTap="openPlaza">
+        <block a:if="{{plaza.on}}">
+          <view class="type-body">我的公示名片 · 挂出中</view>
+          <view class="type-caption">存证 {{plaza.band}} 段 · {{plaza.publicId}}</view>
+          <view class="type-caption more">管理 / 一键撤下 →</view>
+        </block>
+        <block a:else>
+          <view class="type-body">公示名片</view>
+          <view class="type-caption">自愿挂出、随时撤下。开启我的公示 →</view>
+        </block>
       </view>
       <view class="type-legal err" a:if="{{message}}">{{message}}</view>
     </block>

@@ -3,7 +3,7 @@
     "pages/gate/gate",
     "pages/vault/vault",
     "pages/verify/verify",
-    "pages/me/me",
+    "pages/settings/settings",
     "pages/plaza/plaza",
     "pages/attest/attest",
     "pages/consent/consent",
@@ -12,42 +12,15 @@
     "pages/result/result",
     "pages/certify/certify",
     "pages/sign/sign",
+    "pages/add/add",
     "pages/backup/backup",
     "pages/restore/restore"
   ],
   "window": {
-    "defaultTitle": "盟书",
+    "defaultTitle": "",
     "titleBarColor": "#FAFBFC",
     "backgroundColor": "#FAFBFC",
-    "transparentTitle": "always",
-    "titlePenetrate": "YES",
     "allowsBounceVertical": "NO"
-  },
-  "tabBar": {
-    "customize": true,
-    "textColor": "#4A5568",
-    "selectedColor": "#1B3A5C",
-    "backgroundColor": "#FAFBFC",
-    "items": [
-      {
-        "pagePath": "pages/vault/vault",
-        "name": "档案",
-        "icon": "assets/tab/vault.png",
-        "activeIcon": "assets/tab/vault-active.png"
-      },
-      {
-        "pagePath": "pages/verify/verify",
-        "name": "核验",
-        "icon": "assets/tab/verify.png",
-        "activeIcon": "assets/tab/verify-active.png"
-      },
-      {
-        "pagePath": "pages/me/me",
-        "name": "我的",
-        "icon": "assets/tab/me.png",
-        "activeIcon": "assets/tab/me-active.png"
-      }
-    ]
   },
   "usingComponents": {
     "nav-bar": "/components/nav-bar/nav-bar",
@@ -56,5 +29,7 @@
     "statement-card": "/components/statement-card/statement-card",
     "fact-column": "/components/fact-column/fact-column",
     "action-bar": "/components/action-bar/action-bar"
-  }
+  },
+  "useDynamicPlugins": true,
+  "enablePolyfill": true
 }

@@ -1,6 +1,5 @@
 <view class="screen depth-page {{themeClass}} pad-bottom-action">
-  <nav-bar title="身份验证" showBack="{{true}}" zone="vault" depth="{{true}}" onBack="onBack" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+  <view class="body pad-page">
     <view class="type-h2">{{actionLabel}}</view>
     <view class="type-body">敏感操作须通过支付宝「身份验证」（非「人脸核验」产品）。本页为本地模拟门控；正式环境按开放平台计费，盟书不另收运营费。</view>
     <view class="seal-slot" a:if="{{showSeal}}">

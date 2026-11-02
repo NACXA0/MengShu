@@ -123,15 +123,99 @@ console.log('sign + certify then save');
   sign.acceptInvite(rel);
   var c = handlers.certifyCheck({ action: 'sign' }, 'oid_s', repo);
   assert.strictEqual(c.ok, true);
-  var m1 = sign.markCertified(rel, 'A', c);
+  var m1 = sign.markCertified(rel, 'A', c, { relations: [] });
   assert.strictEqual(m1.ok, true);
-  var m2 = sign.markCertified(rel, 'B', c);
+  var m2 = sign.markCertified(rel, 'B', c, { relations: [rel] });
   assert.strictEqual(m2.sealed, true);
   var saved = handlers.relationSave({ relation: rel }, 'oid_s', repo);
   assert.strictEqual(saved.ok, true);
   assert.strictEqual(saved.relation.status, 'SIGNED');
   assert.strictEqual(saved.relation.anchoredLabel, '待锚定（模拟）');
   ok('双方核验后落库 SIGNED');
+})();
+
+console.log('commitment root / anchor drift');
+(function () {
+  var r1 = sign.createInvite({ title: '甲', now: 1000 });
+  var r2 = sign.createInvite({ title: '乙', now: 2000 });
+  var rootA = sign.commitmentRoot([r1, r2]);
+  var rootB = sign.commitmentRoot([r2, r1]);
+  assert.strictEqual(rootA, rootB);
+  ok('承诺根与顺序无关');
+  assert.notEqual(sign.commitmentRoot([r1]), rootA);
+  ok('档案变化改变根');
+  assert.strictEqual(sign.anchorDrift(null, [r1]), null);
+  ok('无快照不判变化');
+
+  // 双签时锚定快照，此后新增关系可被检出差值
+  var rel = sign.createInvite({ title: '锚', now: 3000 });
+  sign.acceptInvite(rel);
+  var c = { ok: true, action: 'sign' };
+  sign.markCertified(rel, 'A', c, { relations: [rel], now: 3001 });
+  var m = sign.markCertified(rel, 'B', c, { relations: [rel], now: 3002 });
+  assert.strictEqual(m.sealed, true);
+  assert.strictEqual(rel.anchor.count, 1);
+  assert.strictEqual(sign.anchorDrift(rel.anchor, [rel]), null);
+  ok('双签写入承诺快照且当时无差');
+
+  var next = sign.createInvite({ title: '并行', now: 4000 });
+  var drift = sign.anchorDrift(rel.anchor, [rel, next]);
+  assert.strictEqual(drift.drift, 1);
+  assert.ok(drift.label.indexOf('+1') >= 0);
+  assert.ok(drift.label.indexOf('内容不可见') >= 0);
+  ok('新增一段被检为 +1 且不泄露内容');
+})();
+
+console.log('plaza set / my profile');
+(function () {
+  var repo = memoryRepo.createMemoryRepo();
+  handlers.authEnter({ adultDeclared: true }, 'oid_p', repo);
+  handlers.authEnter({ adultDeclared: true }, 'oid_q', repo);
+
+  var mine = handlers.plazaGet({ id: 'me' }, 'oid_p', repo);
+  assert.strictEqual(mine.ok, true);
+  assert.strictEqual(mine.profile, null);
+  ok('未开启时我的名片为空');
+
+  var open = handlers.plazaSet({ action: 'open' }, 'oid_p', repo);
+  assert.strictEqual(open.ok, true);
+  assert.strictEqual(open.profile.withdrawn, false);
+  assert.strictEqual(open.profile.band, '0-2');
+  ok('开启公示挂出名片');
+
+  var saved = handlers.relationSave(
+    { relation: sign.createInvite({ title: '公示段', now: 5000 }) },
+    'oid_p',
+    repo
+  );
+  assert.strictEqual(saved.ok, true);
+  var reopen = handlers.plazaSet({ action: 'open' }, 'oid_p', repo);
+  assert.strictEqual(reopen.profile.band, '0-2');
+  ok('重挂自动刷新区间');
+
+  var wd = handlers.plazaSet({ action: 'withdraw' }, 'oid_p', repo);
+  assert.strictEqual(wd.ok, true);
+  assert.strictEqual(wd.profile.withdrawn, true);
+  ok('一键撤下');
+
+  var wdAgain = handlers.plazaSet({ action: 'withdraw' }, 'oid_p', repo);
+  assert.strictEqual(wdAgain.ok, false);
+  assert.strictEqual(wdAgain.reason, 'not_open');
+  ok('重复撤下被拒');
+
+  var other = handlers.plazaGet({ id: 'me' }, 'oid_q', repo);
+  assert.strictEqual(other.profile, null);
+  ok('他人查我的名片为空');
+
+  var tooLong = handlers.plazaSet({ action: 'open', statement: new Array(102).join('字') }, 'oid_p', repo);
+  assert.strictEqual(tooLong.ok, false);
+  assert.strictEqual(tooLong.reason, 'statement_too_long');
+  ok('陈述超百字被拒');
+
+  var noSession = handlers.plazaSet({ action: 'open' }, 'oid_ghost', repo);
+  assert.strictEqual(noSession.ok, false);
+  assert.strictEqual(noSession.reason, 'no_session');
+  ok('未登录不可操作名片');
 })();
 
 console.log('plaza / verify');

@@ -1,11 +1,9 @@
-var nav = require('../../utils/nav');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 var platform = require('../../utils/platform');
 
 Page({
   data: {
-    layout: {},
     profile: null,
     copied: '',
     checked: '',
@@ -15,7 +13,6 @@ Page({
 
   onLoad: function (q) {
     var that = this;
-    this.setData({ layout: nav.getNavLayout() });
     cloud.call('plazaGet', { id: (q && q.id) || 'pb_lin' }).then(function (res) {
       that.setData({ profile: (res && res.profile) || null });
     });

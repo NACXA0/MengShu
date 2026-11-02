@@ -1,19 +1,43 @@
-<view class="screen {{themeClass}}">
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
-    <view class="type-h1">盟书</view>
-    <view class="type-caption lead">支付宝小程序 · 云开发</view>
-    <view class="ghost-field pressable" onTap="toggleAdult">
+<view class="screen {{themeClass}} pad-bottom-safe">
+  <view class="cover">
+    <view class="seal-slot"><ms-seal kind="meng" size="{{136}}" /></view>
+
+    <view class="brand">
+      <view class="tagline-sub">维护长期关系的承诺凭证</view>
+    </view>
+
+    <view class="why-list">
+      <view class="why-item">
+        <view class="why-dot"></view>
+        <view class="why-content">
+          <view class="why-title">双方共签</view>
+          <view class="why-desc">两人到场 · 各自身份验证 · 共同落章</view>
+        </view>
+      </view>
+      <view class="why-item">
+        <view class="why-dot"></view>
+        <view class="why-content">
+          <view class="why-title">不可篡改</view>
+          <view class="why-desc">签署记录上链存证</view>
+        </view>
+      </view>
+      <view class="why-item">
+        <view class="why-dot"></view>
+        <view class="why-content">
+          <view class="why-title">信息安全</view>
+          <view class="why-desc">档案加密存在本地</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="check-row pressable" onTap="toggleAdult">
       <view class="check {{adult ? 'check-on' : ''}}"></view>
-      <text class="grow">我已满 18 周岁</text>
+      <text class="check-text">我已满 18 周岁，自愿进入</text>
     </view>
-    <view class="ghost-field pressable" onTap="toggleRefuse">
-      <view class="check {{refuseExisting ? 'check-on' : ''}}"></view>
-      <text class="grow">演示：已绑定则拒绝（US-F9）</text>
-    </view>
-    <view class="type-caption note">{{note}}</view>
-    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
-    <view class="action-tray enter">
-      <view class="btn btn-fill grow pressable {{busy ? 'btn-disabled' : ''}}" onTap="enter">静默授权进入</view>
+    <view class="err-msg" a:if="{{message}}">{{message}}</view>
+
+    <view class="enter">
+      <view class="btn btn-fill grow pressable {{(!adult || busy) ? 'btn-disabled' : ''}}" onTap="enter">进入盟书</view>
     </view>
   </view>
 </view>

@@ -71,6 +71,10 @@ function switchTab(url) {
   if (hasMy()) my.switchTab({ url: url });
 }
 
+function reLaunch(url) {
+  if (hasMy()) my.reLaunch({ url: url });
+}
+
 function navigateBack(delta) {
   if (hasMy()) my.navigateBack({ delta: delta || 1 });
 }
@@ -142,6 +146,31 @@ function confirm(opts, cb) {
   if (typeof cb === 'function') cb(true);
 }
 
+function actionSheet(opts, cb) {
+  opts = opts || {};
+  var items = opts.items || [];
+  if (!hasMy() || typeof my.showActionSheet !== 'function') {
+    if (typeof cb === 'function') cb(null);
+    return;
+  }
+  try {
+    my.showActionSheet({
+      items: items,
+      success: function (res) {
+        if (typeof cb === 'function') {
+          var idx = res && typeof res.index === 'number' ? res.index : -1;
+          cb(idx >= 0 ? idx : null);
+        }
+      },
+      fail: function () {
+        if (typeof cb === 'function') cb(null);
+      },
+    });
+    return;
+  } catch (e) {}
+  if (typeof cb === 'function') cb(null);
+}
+
 function setNavigationBar(opts) {
   if (!hasMy() || typeof my.setNavigationBar !== 'function') return;
   try {
@@ -200,12 +229,14 @@ module.exports = {
   navigateTo: navigateTo,
   redirectTo: redirectTo,
   switchTab: switchTab,
+  reLaunch: reLaunch,
   navigateBack: navigateBack,
   setClipboard: setClipboard,
   scanCode: scanCode,
   vibrateShort: vibrateShort,
   showToast: showToast,
   confirm: confirm,
+  actionSheet: actionSheet,
   setNavigationBar: setNavigationBar,
   getSystemInfo: getSystemInfo,
   tryGetAuthCode: tryGetAuthCode,

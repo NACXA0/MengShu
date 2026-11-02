@@ -2,6 +2,9 @@
  * 同机双签状态机（本地模拟）。
  * INVITED → DRAFTING → SIGNED（→ 写入模拟存证编号）
  * 拒绝/放弃：邀请方仍只见「等待对方响应」
+ *
+ * 承诺根（L2 披露口径）：双签完成时双方互锚各自档案的哈希根快照。
+ * 根只是指纹，明文不出本机；此后档案任何增减都会改变根，可被对方核验发现。
  */
 var identity = require('./identity');
 
@@ -11,6 +14,53 @@ var STATUS = {
   SIGNED: 'SIGNED',
   VOIDED: 'VOIDED',
 };
+
+/** FNV-1a 32 位（模拟 SM3，与 vault.js simpleHash 同口径） */
+function leafHash(str) {
+  var h = 2166136261;
+  var s = String(str || '');
+  for (var i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return ('00000000' + (h >>> 0).toString(16)).slice(-8);
+}
+
+/**
+ * 档案承诺根：关系 id+updatedAt 排序后逐级归并（模拟 SM3 Merkle 根）。
+ * 对方只能看到根指纹与段数，看不到任何关系内容。
+ */
+function commitmentRoot(relations) {
+  var list = (relations || []).slice().sort(function (a, b) {
+    var ka = a.id + ':' + a.updatedAt;
+    var kb = b.id + ':' + b.updatedAt;
+    return ka < kb ? -1 : ka > kb ? 1 : 0;
+  });
+  if (!list.length) return leafHash('mengshu:empty');
+  var level = [];
+  for (var i = 0; i < list.length; i++) {
+    level.push(leafHash(list[i].id + ':' + list[i].updatedAt));
+  }
+  while (level.length > 1) {
+    var next = [];
+    for (var j = 0; j < level.length; j += 2) {
+      if (j + 1 < level.length) next.push(leafHash(level[j] + level[j + 1]));
+      else next.push(leafHash(level[j] + level[j]));
+    }
+    level = next;
+  }
+  return level[0];
+}
+
+/** 双签完成时的档案快照（段数 + 根 + 时间） */
+function anchorSnapshot(relations, opts) {
+  opts = opts || {};
+  return {
+    count: (relations || []).length,
+    root: commitmentRoot(relations),
+    at: opts.now || Date.now(),
+  };
+}
 
 function createInvite(opts) {
   opts = opts || {};
@@ -25,6 +75,8 @@ function createInvite(opts) {
     /** 对方视角下的真实状态；邀请方对 VOIDED 仍显示等待 */
     inviteeView: STATUS.INVITED,
     certified: { A: false, B: false },
+    /** 双签完成时互锚的档案快照（anchorSnapshot） */
+    anchor: null,
     digest: '',
     txId: '',
     anchoredLabel: '',
@@ -85,6 +137,7 @@ function labelFor(status) {
 
 /**
  * 一方完成核验门后打标。双方都过才进入 SIGNED。
+ * opts.relations：本方当前全部关系，双签完成时用于锚定档案快照。
  */
 function markCertified(rel, side, certifyResult, opts) {
   opts = opts || {};
@@ -115,12 +168,34 @@ function sealSigned(rel, opts) {
   rel.digest = '0xsim_' + String(rel.id).replace(/\W/g, '') + '_' + (now % 1e6).toString(16);
   rel.txId = 'zx_sim_' + now;
   rel.anchoredLabel = '待锚定（模拟）';
+  // 双签即互锚：双方档案快照（同机演示中 A/B 共享同一列表，各自视角仍由快照保证可比对）
+  rel.anchor = anchorSnapshot(opts.relations || [], { now: now });
   rel.updatedAt = now;
   return { ok: true, relation: rel, sealed: true };
 }
 
+/**
+ * 承诺核验：给定承诺时快照与当前档案，返回变化描述（中性措辞，D5 无评判）。
+ * 返回 null 表示无变化；否则 { drift: number, label: string }。
+ */
+function anchorDrift(anchor, relations) {
+  if (!anchor || !anchor.root) return null;
+  var count = (relations || []).length;
+  var drift = count - (anchor.count || 0);
+  if (drift === 0 && commitmentRoot(relations) === anchor.root) return null;
+  var sign = drift > 0 ? '+' : '';
+  return {
+    drift: drift,
+    label: '对方档案已变化（' + sign + drift + ' 段）· 内容不可见',
+  };
+}
+
 module.exports = {
   STATUS: STATUS,
+  leafHash: leafHash,
+  commitmentRoot: commitmentRoot,
+  anchorSnapshot: anchorSnapshot,
+  anchorDrift: anchorDrift,
   createInvite: createInvite,
   acceptInvite: acceptInvite,
   declineInvite: declineInvite,

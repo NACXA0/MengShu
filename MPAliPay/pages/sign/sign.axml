@@ -1,6 +1,5 @@
 <view class="screen depth-page {{themeClass}} pad-bottom-action">
-  <nav-bar title="双签" showBack="{{true}}" zone="vault" depth="{{true}}" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{view}}">
+  <view class="body pad-page" a:if="{{view}}">
     <view class="type-h2">{{view.title}}</view>
     <view class="type-caption status">状态：{{view.displayLabel}}</view>
     <view class="mono type-legal" a:if="{{view.txId && !ritual}}">{{view.txId}}</view>
@@ -10,6 +9,18 @@
     <view class="ghost-field pressable" a:if="{{!ritual}}" onTap="switchRole">
       <text class="grow">切换角色</text>
       <text class="type-caption">{{role === 'A' ? '邀请方 A' : '对方 B'}}</text>
+    </view>
+
+    <view class="peer-card" a:if="{{peer && !ritual && view.status !== 'SIGNED'}}">
+      <view class="type-body">对方档案摘要</view>
+      <view class="type-caption">存证 {{peer.count}} 段 · 根指纹 {{peer.rootShort}}</view>
+      <view class="type-caption">内容不可见。接受并双签后互相锚定档案承诺，此后变化可被核验发现。</view>
+    </view>
+    <view class="peer-card" a:if="{{peer && ritualDone}}">
+      <view class="type-body">承诺锚定</view>
+      <view class="type-caption">双签时双方档案 {{peer.count}} 段 · 根指纹 {{peer.rootShort}}</view>
+      <view class="type-caption drift" a:if="{{peer.driftLabel}}">{{peer.driftLabel}}</view>
+      <view class="type-caption" a:else>当前档案与承诺一致</view>
     </view>
 
     <block a:if="{{view.status === 'DRAFTING' && !ritual}}">
@@ -28,7 +39,7 @@
       </view>
     </block>
   </view>
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:else>
+  <view class="body pad-page" a:else>
     <view class="type-h3">未找到关系</view>
   </view>
 

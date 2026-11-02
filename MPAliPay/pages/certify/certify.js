@@ -1,4 +1,3 @@
-var nav = require('../../utils/nav');
 var platform = require('../../utils/platform');
 var shell = require('../../utils/shell');
 var cloud = require('../../utils/cloud');
@@ -8,12 +7,12 @@ var ACTION_LABEL = {
   sign: '双签确认（身份验证）',
   consent: '现场授权（身份验证）',
   logout: '注销账号（身份验证）',
+  plaza: '开启公示（身份验证）',
 };
 
 Page({
   depthPage: true,
   data: {
-    layout: {},
     action: 'sign',
     actionLabel: '双签确认',
     side: '',
@@ -27,7 +26,6 @@ Page({
     var action = (q && q.action) || 'sign';
     var that = this;
     this.setData({
-      layout: nav.getNavLayout(),
       action: action,
       actionLabel: ACTION_LABEL[action] || action,
       side: (q && q.side) || '',

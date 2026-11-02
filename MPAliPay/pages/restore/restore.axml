@@ -1,6 +1,5 @@
 <view class="screen depth-page {{themeClass}} pad-bottom-action">
-  <nav-bar title="恢复" showBack="{{true}}" zone="vault" depth="{{true}}" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}">
+  <view class="body pad-page">
     <view class="type-caption">本地模拟：助记词 + 新口令</view>
     <textarea class="mono area" value="{{mnemonic}}" placeholder="助记词" onInput="onMnemonic" />
     <input class="mono field-line" password value="{{pass}}" placeholder="新口令" onInput="onPass" />

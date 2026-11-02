@@ -1,0 +1,88 @@
+<view class="screen {{themeClass}} pad-bottom-safe">
+  <view class="body pad-page">
+    <view class="type-caption sect">会话</view>
+    <view class="group">
+      <view class="ghost-field">
+        <view class="grow">
+          <view class="type-body">当前 openid</view>
+          <view class="mono type-caption">{{openIdHint}}</view>
+        </view>
+      </view>
+      <view class="ghost-field pressable" a:if="{{hasSession}}" onTap="clearSessionKeepBound">
+        <text class="grow">退出会话（保留绑定）</text>
+        <text class="type-caption">US-F9</text>
+      </view>
+      <view class="ghost-field pressable alert" a:if="{{hasSession}}" onTap="startLogout">
+        <text>注销账号（须身份验证）</text>
+      </view>
+    </view>
+
+    <view class="type-caption sect">授权记录</view>
+    <view class="group" a:if="{{consents.length}}">
+      <view class="ledger" a:for="{{consents}}" a:key="id">
+        <text class="tnum cell">{{item.time}}</text>
+        <text class="cell">{{item.org}}</text>
+        <text class="cell">{{item.fields}}</text>
+      </view>
+    </view>
+    <view class="group" a:else>
+      <view class="type-caption empty-line">暂无授权记录</view>
+    </view>
+
+    <view class="type-caption sect">通用</view>
+    <view class="group">
+      <view class="ghost-field pressable" onTap="cycleTheme">
+        <text class="grow">外观</text>
+        <text class="type-caption">{{appearance}}</text>
+      </view>
+      <view class="ghost-field pressable" onTap="openBoundary">
+        <text class="grow">能力边界</text>
+      </view>
+    </view>
+
+    <view class="type-caption sect">演示控制台</view>
+    <view class="group">
+      <view class="ghost-field pressable" onTap="toggleCertifyDown">
+        <text class="grow">身份验证服务中断</text>
+        <text class="type-caption">{{certifyDown ? '已中断' : '正常'}}</text>
+      </view>
+      <view class="ghost-field pressable" onTap="toggleRefuseExisting">
+        <text class="grow">US-F9 已绑定拒绝</text>
+        <text class="type-caption">{{refuseExisting ? '已开启' : '关闭'}}</text>
+      </view>
+      <view class="ghost-field pressable alert" onTap="reset">
+        <text>{{resetLabel}}</text>
+      </view>
+    </view>
+
+    <view class="type-caption sect">公示样本</view>
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{samples}}" a:key="id" data-id="{{item.id}}" onTap="openPlaza">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="type-caption sect">核验码样本</view>
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{codes}}" a:key="id" data-id="{{item.id}}" onTap="fillCode">
+        <view class="grow">
+          <view class="mono type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="type-caption sect">机构样本</view>
+    <view class="group">
+      <view class="ghost-field pressable" a:for="{{orgs}}" a:key="id" data-id="{{item.id}}" onTap="openOrg">
+        <view class="grow">
+          <view class="type-body">{{item.title}}</view>
+          <view class="type-caption">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

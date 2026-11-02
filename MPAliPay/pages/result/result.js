@@ -1,11 +1,9 @@
-var nav = require('../../utils/nav');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 var platform = require('../../utils/platform');
 
 Page({
   data: {
-    layout: {},
     kind: 'pass',
     drop: false,
     rows: [],
@@ -17,7 +15,7 @@ Page({
     var kind = (q && q.kind) || 'pass';
     var that = this;
     var fields = ((q && q.fields) || 'band,attestation').split(',').filter(Boolean);
-    this.setData({ layout: nav.getNavLayout(), kind: kind });
+    this.setData({ kind: kind });
 
     var finish = function (profile) {
       var rows = [];
@@ -70,10 +68,10 @@ Page({
   },
 
   retry: function () {
-    platform.switchTab('/pages/verify/verify');
+    platform.redirectTo('/pages/verify/verify');
   },
 
   toLedger: function () {
-    platform.switchTab('/pages/me/me');
+    platform.redirectTo('/pages/settings/settings');
   },
 });

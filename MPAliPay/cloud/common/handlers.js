@@ -160,10 +160,86 @@ function relationSave(data, openId, repo) {
 
 function plazaGet(data, openId, repo) {
   var id = (data && data.id) || 'pb_lin';
+  if (id === 'me') {
+    // 本人查自己的名片：未开启时返回空档案（首页卡片据此显示引导态）
+    var own = openId ? repo.getProfileByOwner(openId) : null;
+    return { ok: true, profile: own };
+  }
   var profile = repo.getProfile(id);
   if (!profile) {
     return { ok: false, reason: 'not_found', message: '未找到公开页' };
   }
+  return { ok: true, profile: profile };
+}
+
+/** 段数 → 展示区间（PRD FR-A1：区间化，禁止精确数字公示） */
+function bandForCount(n) {
+  if (n <= 2) return '0-2';
+  if (n <= 5) return '3-5';
+  if (n <= 8) return '6-8';
+  return '9+';
+}
+
+/**
+ * 公示名片管理（仅本人）。
+ * action='open'：挂出/重新挂出/更新（前端须先过 certify(action='plaza') 门控）。
+ * action='withdraw'：一键撤下——撤下是用户权利，不设门控（PRD US-04）。
+ */
+function plazaSet(data, openId, repo) {
+  var err = requireOpenId(openId);
+  if (err) return err;
+  if (!repo.getUser(openId)) {
+    return { ok: false, reason: 'no_session', message: '未登录' };
+  }
+  var action = (data && data.action) || '';
+  var existing = repo.getProfileByOwner(openId);
+
+  if (action === 'withdraw') {
+    if (!existing || existing.withdrawn) {
+      return { ok: false, reason: 'not_open', message: '公示未挂出' };
+    }
+    existing.withdrawn = true;
+    repo.putProfile(existing);
+    return { ok: true, profile: existing };
+  }
+
+  if (action !== 'open') {
+    return { ok: false, reason: 'bad_action', message: '未知操作' };
+  }
+
+  var statement = String((data && data.statement) || (existing && existing.statements && existing.statements.length ? existing.statements[0].body : '') || '');
+  if (statement.length > 100) {
+    return { ok: false, reason: 'statement_too_long', message: '陈述不超过 100 字' };
+  }
+
+  var rels = repo.listRelations(openId);
+  var signed = 0;
+  for (var i = 0; i < rels.length; i++) {
+    if (rels[i].status === 'SIGNED') signed++;
+  }
+  var user = repo.getUser(openId) || {};
+  var created = new Date(user.createdAt || Date.now());
+  var registered = created.getFullYear() + '年' + (created.getMonth() + 1) + '月';
+
+  var profile = existing || {
+    id: 'me_' + String(openId).replace(/\W/g, ''),
+    ownerOpenId: openId,
+    publicId: 'pb_' + String(openId).replace(/\W/g, '').slice(-8),
+    statements: [],
+  };
+  profile.name = String((data && data.name) || profile.name || '我');
+  profile.band = bandForCount(signed);
+  profile.closure = '存续 ' + signed;
+  profile.attestation = profile.attestation === 'verified' ? 'verified' : 'none';
+  profile.attestationLabel = profile.attestation === 'verified' ? '已宣誓' : '未宣誓';
+  profile.anchored = true;
+  profile.registered = registered;
+  profile.dividend = '本平台不就机构查询收取运营费；全平台唯一付费项为支付宝身份验证';
+  if (statement) {
+    profile.statements = [{ side: 'A', body: statement, date: formatNow() }];
+  }
+  profile.withdrawn = false;
+  repo.putProfile(profile);
   return { ok: true, profile: profile };
 }
 
@@ -253,6 +329,7 @@ module.exports = {
   relationList: relationList,
   relationSave: relationSave,
   plazaGet: plazaGet,
+  plazaSet: plazaSet,
   verifyRedeem: verifyRedeem,
   verifyLogs: verifyLogs,
   consentAdd: consentAdd,

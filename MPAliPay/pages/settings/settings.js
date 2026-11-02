@@ -1,4 +1,3 @@
-var nav = require('../../utils/nav');
 var theme = require('../../utils/theme');
 var platform = require('../../utils/platform');
 var cloud = require('../../utils/cloud');
@@ -6,15 +5,17 @@ var shell = require('../../utils/shell');
 var vaultSession = require('../../utils/vaultSession');
 var haptics = require('../../utils/haptics');
 
+var REFUSE_KEY = 'mengshu_demo_refuse_bound';
+
 Page({
   data: {
-    layout: {},
     appearance: '跟随系统',
     consents: [],
     resetLabel: '重置本地演示仓',
     resetArmed: false,
     openIdHint: '',
     certifyDown: false,
+    refuseExisting: false,
     hasSession: false,
     awaitingLogout: false,
     samples: [
@@ -35,14 +36,12 @@ Page({
   },
 
   onLoad: function () {
-    this.setData({ layout: nav.getNavLayout() });
+    this.setData({
+      refuseExisting: !!platform.getStorage(REFUSE_KEY),
+    });
   },
 
   onShow: function () {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setSelected(2);
-    }
-
     var ticket = shell.takePendingCertify();
     try {
       var g = getApp().globalData.certifyTicket;
@@ -78,28 +77,19 @@ Page({
   },
 
   openPlaza: function (e) {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().conceal(false);
-    }
     platform.navigateTo('/pages/plaza/plaza?id=' + e.currentTarget.dataset.id);
   },
 
   fillCode: function (e) {
     getApp().globalData.pendingCode = e.currentTarget.dataset.id;
-    platform.switchTab('/pages/verify/verify');
+    platform.navigateTo('/pages/verify/verify');
   },
 
   openOrg: function (e) {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().conceal(true);
-    }
     platform.navigateTo('/pages/consent/consent?org=' + e.currentTarget.dataset.id);
   },
 
   openBoundary: function () {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().conceal(true);
-    }
     platform.navigateTo('/pages/boundary/boundary');
   },
 
@@ -109,9 +99,6 @@ Page({
     theme.setPreference(next);
     theme.applyToPage(this, false);
     this.setData({ appearance: theme.labelFor(next) });
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ tone: theme.iconTone(), themeClass: theme.resolveClass() });
-    }
   },
 
   toggleCertifyDown: function () {
@@ -123,12 +110,19 @@ Page({
     });
   },
 
+  toggleRefuseExisting: function () {
+    haptics.paper();
+    var next = !this.data.refuseExisting;
+    platform.setStorage(REFUSE_KEY, next);
+    this.setData({ refuseExisting: next });
+  },
+
   clearSessionKeepBound: function () {
     haptics.paper();
     getApp().setSession(null);
     vaultSession.clearSession();
     this.refreshSession();
-    platform.redirectTo('/pages/gate/gate');
+    platform.reLaunch('/pages/gate/gate');
   },
 
   startLogout: function () {
@@ -157,7 +151,7 @@ Page({
       getApp().setSession(null);
       vaultSession.clearSession();
       that.refreshSession();
-      platform.redirectTo('/pages/gate/gate');
+      platform.reLaunch('/pages/gate/gate');
     });
   },
 

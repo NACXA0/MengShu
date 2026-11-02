@@ -1,29 +1,27 @@
-var nav = require('../../utils/nav');
 var platform = require('../../utils/platform');
 var cloud = require('../../utils/cloud');
 var haptics = require('../../utils/haptics');
 
+var REFUSE_KEY = 'mengshu_demo_refuse_bound';
+
 Page({
   data: {
-    layout: {},
     adult: false,
     refuseExisting: false,
     message: '',
     busy: false,
-    note: '身份由云函数 OPENID 绑定。未配置云环境时走本地同逻辑兜底。',
   },
 
   onLoad: function () {
+    this.setData({ refuseExisting: !!platform.getStorage(REFUSE_KEY) });
     if (getApp().ensureSessionOrGate()) {
-      platform.switchTab('/pages/vault/vault');
-      return;
+      platform.reLaunch('/pages/vault/vault');
     }
-    this.setData({ layout: nav.getNavLayout() });
   },
 
   onShow: function () {
     if (getApp().ensureSessionOrGate()) {
-      platform.switchTab('/pages/vault/vault');
+      platform.reLaunch('/pages/vault/vault');
     }
   },
 
@@ -31,12 +29,12 @@ Page({
     this.setData({ adult: !this.data.adult, message: '' });
   },
 
-  toggleRefuse: function () {
-    this.setData({ refuseExisting: !this.data.refuseExisting, message: '' });
-  },
-
   enter: function () {
     if (this.data.busy) return;
+    if (!this.data.adult) {
+      this.setData({ message: '须先声明已满 18 周岁' });
+      return;
+    }
     haptics.paper();
     var that = this;
     this.setData({ busy: true, message: '' });
@@ -65,7 +63,7 @@ Page({
           return;
         }
         getApp().setSession(result.session);
-        platform.switchTab('/pages/vault/vault');
+        platform.reLaunch('/pages/vault/vault');
       })
       .catch(function (e) {
         that.setData({ busy: false, message: (e && e.message) || '进入失败' });

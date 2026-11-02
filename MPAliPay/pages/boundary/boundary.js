@@ -1,17 +1,15 @@
-var nav = require('../../utils/nav');
 var haptics = require('../../utils/haptics');
+var nav = require('../../utils/nav');
 
 Page({
   depthPage: true,
   data: {
-    layout: {},
     phase: 'enter',
     nudge: false,
   },
 
   onLoad: function () {
     this.setData({
-      layout: nav.getNavLayout(),
       phase: nav.reduceMotion() ? 'in' : 'enter',
     });
     var that = this;

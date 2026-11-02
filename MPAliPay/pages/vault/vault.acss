@@ -2,6 +2,41 @@
   margin-bottom: 24rpx;
 }
 
+.capsule-buttons {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.capsule-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.zone-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.zone-chip {
+  border: 1px solid var(--seal-gold);
+  color: var(--seal-gold);
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  line-height: 22rpx;
+  padding: 8rpx 20rpx;
+  margin-right: 16rpx;
+}
+
 .field-line {
   height: 88rpx;
   margin: 16rpx 0 24rpx;
@@ -21,6 +56,76 @@
 
 .row {
   display: flex;
+}
+
+.sect {
+  margin-bottom: 16rpx;
+}
+
+.overview {
+  border: 1px solid var(--seal-gold);
+  border-radius: 8rpx;
+  padding: 32rpx;
+  margin-bottom: 40rpx;
+}
+
+.overview-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.overview-head .zone-chip {
+  margin-right: 16rpx;
+}
+
+.overview-title {
+  color: var(--ink-jiao);
+}
+
+.overview .root-line {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: var(--seal-gold);
+}
+
+.overview .lock-line {
+  margin-top: 8rpx;
+}
+
+.plaza-card {
+  background-color: #fafbfc;
+  border-radius: 8rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  color: #1b3a5c;
+}
+
+.plaza-card .type-caption {
+  color: #718096;
+  margin-top: 8rpx;
+}
+
+.plaza-card .more {
+  color: #2c5282;
+}
+
+.theme-dark .plaza-card {
+  background-color: #1e2126;
+  color: #e2e8f0;
+}
+
+.theme-dark .plaza-card .type-caption {
+  color: #a0aec0;
+}
+
+.theme-dark .plaza-card .more {
+  color: #c9a961;
+}
+
+.privacy {
+  text-align: center;
 }
 
 .empty {

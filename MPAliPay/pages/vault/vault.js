@@ -7,6 +7,13 @@ var sign = require('../../utils/sign');
 var shell = require('../../utils/shell');
 var haptics = require('../../utils/haptics');
 
+function fmtDate(ts) {
+  var d = new Date(ts);
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
+}
+
 Page({
   data: {
     layout: {},
@@ -15,25 +22,27 @@ Page({
     pass: '',
     message: '',
     relations: [],
-    role: 'A',
+    overview: { count: 0, lastLabel: '', rootShort: '' },
+    plaza: { on: false, band: '', publicId: '' },
     note: '口令与助记词仅存本机；关系档案经云函数读写。',
   },
 
   onLoad: function () {
+    if (platform.hasMy() && typeof my.hideBackHome === 'function') {
+      my.hideBackHome();
+    }
     this.setData({ layout: nav.getNavLayout() });
   },
 
   onShow: function () {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setSelected(0);
-    }
     if (!getApp().ensureSessionOrGate()) {
-      platform.redirectTo('/pages/gate/gate');
+      platform.reLaunch('/pages/gate/gate');
       return;
     }
     this.refreshLockUi();
     if (vaultLib.isUnlocked(vaultSession.loadUnlocked())) {
       this.loadRelations();
+      this.loadPlaza();
     }
   },
 
@@ -42,7 +51,6 @@ Page({
     this.setData({
       unlocked: vaultLib.isUnlocked(v),
       hasLock: !!v.locked,
-      role: shell.getSignRole(),
     });
   },
 
@@ -54,7 +62,35 @@ Page({
       var views = list.map(function (r) {
         return sign.viewForRole(r, role);
       });
-      that.setData({ relations: views, role: role, unlocked: true });
+      var last = 0;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].status === sign.STATUS.SIGNED && list[i].updatedAt > last) last = list[i].updatedAt;
+      }
+      var root = sign.commitmentRoot(list);
+      that._rootFull = root;
+      that.setData({
+        relations: views,
+        unlocked: true,
+        overview: {
+          count: list.length,
+          lastLabel: last ? '最近互证 ' + fmtDate(last) : '尚未互证',
+          rootShort: root.slice(0, 8),
+        },
+      });
+    });
+  },
+
+  loadPlaza: function () {
+    var that = this;
+    cloud.call('plazaGet', { id: 'me' }).then(function (res) {
+      var p = (res && res.profile) || null;
+      that.setData({
+        plaza: {
+          on: !!(p && !p.withdrawn),
+          band: p ? p.band : '',
+          publicId: p ? p.publicId : '',
+        },
+      });
     });
   },
 
@@ -81,6 +117,7 @@ Page({
     platform.showToast('口令已设置');
     this.refreshLockUi();
     this.loadRelations();
+    this.loadPlaza();
   },
 
   unlock: function () {
@@ -96,72 +133,74 @@ Page({
     platform.showToast('已解锁');
     this.refreshLockUi();
     this.loadRelations();
+    this.loadPlaza();
   },
 
-  lockNow: function () {
-    vaultSession.clearSession();
-    this.setData({ relations: [] });
-    this.refreshLockUi();
-    platform.showToast('已锁定');
-  },
-
-  switchRole: function () {
-    haptics.paper();
-    var next = this.data.role === 'A' ? 'B' : 'A';
-    shell.setSignRole(next);
-    this.loadRelations();
-  },
-
-  startSign: function () {
-    haptics.paper();
-    var v = vaultSession.loadUnlocked();
-    if (!vaultLib.isUnlocked(v)) {
-      this.setData({ message: '请先解锁保险库' });
-      return;
-    }
-    var that = this;
-    var rel = sign.createInvite({ title: '演示关系' });
-    cloud.call('relationSave', { relation: rel }).then(function (res) {
-      if (!res || !res.ok) {
-        that.setData({ message: (res && res.message) || '保存失败' });
-        return;
-      }
-      platform.navigateTo('/pages/sign/sign?id=' + rel.id);
-    });
+  copyRoot: function () {
+    if (!this._rootFull) return;
+    platform.setClipboard(this._rootFull);
+    platform.showToast('承诺根已复制');
   },
 
   openSign: function (e) {
     platform.navigateTo('/pages/sign/sign?id=' + e.currentTarget.dataset.id);
   },
 
-  openBackup: function () {
-    platform.navigateTo('/pages/backup/backup');
+  openPlaza: function () {
+    platform.navigateTo('/pages/plaza/plaza?id=me');
   },
 
-  openRestore: function () {
-    platform.navigateTo('/pages/restore/restore');
+  openSettings: function () {
+    platform.navigateTo('/pages/settings/settings');
   },
 
-  destroyVault: function () {
+  onScan: function () {
     haptics.paper();
     var that = this;
-    platform.confirm(
+    platform.scanCode(function (code) {
+      if (code && /^MS-/i.test(String(code).trim())) {
+        getApp().globalData.pendingCode = String(code).trim();
+        platform.navigateTo('/pages/verify/verify');
+      } else {
+        that.showScanSheet();
+      }
+    });
+  },
+
+  showScanSheet: function () {
+    var that = this;
+    platform.actionSheet(
       {
-        title: '销毁保险库',
-        content: '将清除本机口令与助记词派生密钥，不可恢复。确定继续？',
-        confirmButtonText: '销毁',
-        cancelButtonText: '取消',
+        items: ['验证他人档案', '发起新关系', '加入对方发起的关系'],
       },
-      function (ok) {
-        if (!ok) return;
-        var v = vaultSession.loadUnlocked();
-        vaultLib.destroy(v);
-        vaultSession.clearSession();
-        vaultSession.persist(v);
-        that.setData({ message: '', relations: [] });
-        that.refreshLockUi();
-        platform.showToast('保险库已销毁');
+      function (idx) {
+        if (idx === 0) {
+          platform.navigateTo('/pages/verify/verify');
+        } else if (idx === 1) {
+          platform.navigateTo('/pages/add/add');
+        } else if (idx === 2) {
+          that.joinInvite();
+        }
       }
     );
+  },
+
+  joinInvite: function () {
+    var that = this;
+    cloud.call('relationList', {}).then(function (res) {
+      var list = (res && res.relations) || [];
+      var invited = null;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].status === sign.STATUS.INVITED) {
+          if (!invited || list[i].updatedAt > invited.updatedAt) invited = list[i];
+        }
+      }
+      if (!invited) {
+        platform.showToast('暂无可加入的邀请');
+        return;
+      }
+      shell.setSignRole('B');
+      platform.navigateTo('/pages/sign/sign?id=' + invited.id);
+    });
   },
 });

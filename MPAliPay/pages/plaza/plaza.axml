@@ -1,6 +1,5 @@
 <view class="screen {{themeClass}} pad-bottom-action">
-  <nav-bar title="公开页" showBack="{{true}}" zone="plaza" report="{{true}}" onReport="onReport" />
-  <view class="body pad-page" style="{{layout.bodyPadStyle}}" a:if="{{profile && !profile.withdrawn}}">
+  <view class="body pad-page" a:if="{{profile && !profile.withdrawn}}">
     <view class="head">
       <view class="name-block">
         <view class="type-h1">{{profile.name}}</view>
@@ -18,19 +17,43 @@
       <statement-card statements="{{profile.statements}}" />
     </view>
     <view class="type-caption div-line" a:if="{{profile.dividend}}">{{profile.dividend}}</view>
-    <view class="ad-card">
+    <view class="ad-card" a:if="{{!mine}}">
       <view class="ad-tag">广告</view>
       <view class="type-legal">婚恋服务机构可申请查询已公示字段。</view>
     </view>
+    <view class="type-legal manage-note" a:if="{{mine}}">公示由你自愿挂出，可随时撤下；撤下后公开页立即下线。</view>
+    <view class="type-legal err" a:if="{{message}}">{{message}}</view>
   </view>
-  <view class="body pad-page withdrawn" style="{{layout.bodyPadStyle}}" a:elif="{{profile && profile.withdrawn}}">
+  <view class="body pad-page withdrawn" a:elif="{{profile && profile.withdrawn}}">
     <view class="gate">
       <view class="leaf"></view>
       <view class="leaf"></view>
     </view>
     <view class="type-h3">公示已撤下</view>
+    <view class="type-caption" a:if="{{mine}}">重新挂出须再次通过身份验证。</view>
   </view>
+  <view class="body pad-page withdrawn" a:elif="{{mine}}">
+    <view class="gate">
+      <view class="leaf"></view>
+      <view class="leaf"></view>
+    </view>
+    <view class="type-h3">尚未开启公示</view>
+    <view class="type-caption">自愿挂出你的档案名片：存证段数区间、宣誓状态。</view>
+    <view class="type-caption">挂出后可分享链接，随时一键撤下。</view>
+  </view>
+  <view class="body pad-page withdrawn" a:else>
+    <view class="type-h3">未找到公开页</view>
+  </view>
+
   <view class="share" a:if="{{profile && !profile.withdrawn}}">
     <view class="btn grow pressable" onTap="onCopy">复制链接</view>
+    <view class="btn grow pressable" a:if="{{mine}}" onTap="withdraw">撤下公示</view>
   </view>
+
+  <action-bar
+    a:if="{{mine && (!profile || profile.withdrawn)}}"
+    single="{{profile && profile.withdrawn ? '重新挂出（须身份验证）' : '开启公示（须身份验证）'}}"
+    singleDisabled="{{busy}}"
+    onSingle="startOpen"
+  />
 </view>

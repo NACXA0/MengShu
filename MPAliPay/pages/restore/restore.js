@@ -1,20 +1,17 @@
-var nav = require('../../utils/nav');
 var vaultLib = require('../../utils/vault');
 var vaultSession = require('../../utils/vaultSession');
 var platform = require('../../utils/platform');
 var haptics = require('../../utils/haptics');
 
 Page({
+  depthPage: true,
   data: {
-    layout: {},
     mnemonic: '',
     pass: '',
     message: '',
   },
 
-  onLoad: function () {
-    this.setData({ layout: nav.getNavLayout() });
-  },
+  onLoad: function () {},
 
   onMnemonic: function (e) {
     this.setData({ mnemonic: (e.detail && e.detail.value) || '' });
